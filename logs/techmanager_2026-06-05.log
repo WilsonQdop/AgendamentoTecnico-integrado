@@ -1,0 +1,1394 @@
+2026-06-05 09:14:58 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 09:15:03 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 09:15:03 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 11052 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 09:15:03 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 09:15:03 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 09:15:03 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 09:15:05 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 09:15:05 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 87 ms. Found 7 JPA repository interfaces.
+2026-06-05 09:15:06 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 09:15:06 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 09:15:06 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 09:15:06 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 09:15:06 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2703 ms
+2026-06-05 09:15:06 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 09:15:06 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 09:15:07 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 09:15:07 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 09:15:08 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7759aad4
+2026-06-05 09:15:08 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 09:15:08 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 09:15:08 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 09:15:10 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 09:15:10 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 09:15:10 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 09:15:11 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 09:15:12 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 09:15:13 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 09:15:13 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 09:15:14 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 09:15:14 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 11.551 seconds (process running for 13.151)
+2026-06-05 09:15:36 INFO  [https-jsse-nio-8443-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 09:15:36 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 09:15:36 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-06-05 09:15:36 WARN  [https-jsse-nio-8443-exec-3] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidTokenException: Token inválido ou expirado]
+2026-06-05 09:15:36 WARN  [https-jsse-nio-8443-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidTokenException: Token inválido ou expirado]
+2026-06-05 09:16:24 WARN  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson.tech@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson.tech@gmail.com
+2026-06-05 09:16:24 WARN  [https-jsse-nio-8443-exec-4] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 09:16:34 WARN  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson.tech@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson.tech@gmail.com
+2026-06-05 09:16:34 WARN  [https-jsse-nio-8443-exec-6] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 09:16:38 WARN  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson.tech@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson.tech@gmail.com
+2026-06-05 09:16:38 WARN  [https-jsse-nio-8443-exec-7] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 09:16:48 WARN  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: Wilson.tech@gmail.com | Descrição: Senha incorreta para o usuário: Wilson | Tentativa 7 de 5 | Data/hora: 2026-06-05T09:16:48.066854800
+2026-06-05 09:16:48 WARN  [https-jsse-nio-8443-exec-10] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidPasswordException: Senha incorreta.]
+2026-06-05 09:16:57 WARN  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: Wilson.tech@gmail.com | Descrição: Tentativa de login em conta bloqueada. Usuário: Wilson | Desbloqueio em 10 minuto(s)
+2026-06-05 09:16:57 WARN  [https-jsse-nio-8443-exec-3] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.AccountLockedException: Conta bloqueada por excesso de tentativas. Tente novamente em 10 minuto(s).]
+2026-06-05 09:17:05 WARN  [https-jsse-nio-8443-exec-2] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: fedendo@gmail.com | Descrição: Senha incorreta para o usuário: Fedendo | Tentativa 1 de 5 | Data/hora: 2026-06-05T09:17:05.550700600
+2026-06-05 09:17:05 WARN  [https-jsse-nio-8443-exec-2] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidPasswordException: Senha incorreta.]
+2026-06-05 09:17:11 INFO  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: fedendo@gmail.com | Descrição: Login realizado com sucesso. Usuário: Fedendo
+2026-06-05 09:18:00 INFO  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: Wilson.tecnico@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 09:56:03 INFO  [https-jsse-nio-8443-exec-9] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: fedendo@gmail.com | Descrição: Login realizado com sucesso. Usuário: Fedendo
+2026-06-05 09:56:12 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: Fedendo | Descrição: Chamado criado: 'dwadwa' | Categoria: SOFTWARE | Prioridade: MEDIUM
+2026-06-05 10:02:50 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: Fedendo | Descrição: Chamado criado: 'oi' | Categoria: SOFTWARE | Prioridade: MEDIUM
+2026-06-05 10:26:52 INFO  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: Fedendo | Descrição: Chamado criado: 'swswsw' | Categoria: null | Prioridade: MEDIUM
+2026-06-05 10:28:44 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: Fedendo | Descrição: Chamado criado: 'oi2' | Categoria: NETWORK | Prioridade: LOW
+2026-06-05 10:30:51 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: Fedendo | Descrição: Chamado criado: 'adwa' | Categoria: HARDWARE | Prioridade: HIGH
+2026-06-05 10:38:34 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2026-06-05 10:38:34 INFO  [Thread-1] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 10:38:34 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:34 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 10:38:34 INFO  [Thread-1] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:34 INFO  [Thread-1] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 10:38:34 INFO  [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 10:38:34 INFO  [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 10:38:35 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 11052 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 10:38:35 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 10:38:35 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 10:38:35 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 33 ms. Found 7 JPA repository interfaces.
+2026-06-05 10:38:35 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 10:38:35 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:36 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 10:38:36 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 10:38:36 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1233 ms
+2026-06-05 10:38:36 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 10:38:36 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 10:38:36 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-06-05 10:38:36 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@53eb5d83
+2026-06-05 10:38:36 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-06-05 10:38:36 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 10:38:36 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 10:38:36 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 10:38:36 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 10:38:37 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 10:38:37 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 10:38:38 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:38 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 10:38:38 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 10:38:38 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 3.548 seconds (process running for 5017.491)
+2026-06-05 10:38:38 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-06-05 10:38:39 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-06-05 10:38:39 INFO  [Thread-5] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 10:38:39 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:39 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 10:38:39 INFO  [Thread-5] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:39 INFO  [Thread-5] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 10:38:39 INFO  [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-06-05 10:38:39 INFO  [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-06-05 10:38:40 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 11052 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 10:38:40 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 10:38:40 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 10:38:41 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 27 ms. Found 7 JPA repository interfaces.
+2026-06-05 10:38:41 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 10:38:41 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:41 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 10:38:41 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 10:38:41 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1240 ms
+2026-06-05 10:38:41 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 10:38:41 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 10:38:41 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-06-05 10:38:41 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@108ade62
+2026-06-05 10:38:41 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-06-05 10:38:41 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 10:38:41 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 10:38:42 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 10:38:42 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 10:38:42 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 10:38:42 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 10:38:42 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 10:38:43 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 10:38:43 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 10:38:43 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 3.607 seconds (process running for 5022.51)
+2026-06-05 10:38:43 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-06-05 10:44:58 INFO  [https-jsse-nio-8443-exec-8] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 10:44:58 INFO  [https-jsse-nio-8443-exec-8] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 10:44:58 INFO  [https-jsse-nio-8443-exec-8] o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-06-05 10:45:03 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Wilson | Descrição: Técnico 'Wilson' assumiu o chamado 'sw' do cliente 'Fedendo'
+2026-06-05 10:45:41 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Wilson | Descrição: Técnico 'Wilson' assumiu o chamado 'oi2' do cliente 'Fedendo'
+2026-06-05 12:02:10 WARN  [https-jsse-nio-8443-exec-6] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidTokenException: Token inválido ou expirado]
+2026-06-05 12:02:20 WARN  [https-jsse-nio-8443-exec-8] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidTokenException: Token inválido ou expirado]
+2026-06-05 12:02:20 WARN  [https-jsse-nio-8443-exec-7] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidTokenException: Token inválido ou expirado]
+2026-06-05 12:02:41 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: Wilson.tecnico@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 12:24:48 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Wilson | Descrição: Atendimento iniciado para o chamado 'sw'
+2026-06-05 12:24:51 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Wilson | Descrição: Atendimento iniciado para o chamado 'sw'
+2026-06-05 12:25:06 INFO  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Wilson | Descrição: Atendimento iniciado para o chamado 'sw'
+2026-06-05 12:47:46 INFO  [https-jsse-nio-8443-exec-2] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 12:48:19 INFO  [https-jsse-nio-8443-exec-9] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 12:48:25 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 12:48:26 INFO  [https-jsse-nio-8443-exec-2] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Wilson | Descrição: Atendimento iniciado para o chamado 'oi2'
+2026-06-05 12:48:34 INFO  [https-jsse-nio-8443-exec-9] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 12:48:38 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 12:50:50 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Wilson | Descrição: Técnico 'Wilson' assumiu o chamado 'dawdaw' do cliente 'Wilson'
+2026-06-05 12:51:12 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 94ea8f43-f796-428c-9463-700800eea021 | Descrição: O técnico Wilson atualizou o chamado do clienteWilson
+2026-06-05 12:51:18 INFO  [https-jsse-nio-8443-exec-2] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Wilson | Descrição: Atendimento iniciado para o chamado 'dawdaw'
+2026-06-05 12:51:21 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 94ea8f43-f796-428c-9463-700800eea021 | Descrição: O técnico Wilson atualizou o chamado do clienteWilson
+2026-06-05 12:51:27 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [TICKET_FINISHED] | Alvo: Wilson | Descrição: Chamado 'dawdaw' finalizado. Valor calculado: R$ 180.0000
+2026-06-05 12:54:02 INFO  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Sistema | Descrição: Atendimento iniciado para o chamado 'dwadwa'
+2026-06-05 12:54:15 INFO  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [TICKET_FINISHED] | Alvo: Wilson | Descrição: Chamado 'oi2' finalizado. Valor calculado: R$ 150.0000
+2026-06-05 13:04:17 INFO  [https-jsse-nio-8443-exec-2] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Wilson | Descrição: Atendimento iniciado para o chamado 'oi2'
+2026-06-05 13:05:05 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 5e9ef85c-0638-4d5a-a19a-a7b3e8d2adaa | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 13:05:26 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 5e9ef85c-0638-4d5a-a19a-a7b3e8d2adaa | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 13:05:52 INFO  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 5e9ef85c-0638-4d5a-a19a-a7b3e8d2adaa | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 13:09:08 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 13:09:45 INFO  [https-jsse-nio-8443-exec-1] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: O técnico Wilson atualizou o chamado do clienteFedendo
+2026-06-05 13:09:51 INFO  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [TICKET_FINISHED] | Alvo: Wilson | Descrição: Chamado 'oi2' finalizado. Valor calculado: R$ 150.0000
+2026-06-05 13:10:06 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [TICKET_FINISHED_PAYMENT_CANCELED] | Alvo: c9bcfb2e-8d60-424b-8326-0670a252da13 | Descrição: Não pode alterar chamados já finalizado, concluidos ou aguardando pagamentos
+2026-06-05 13:10:06 WARN  [https-jsse-nio-8443-exec-7] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.IllegalTicketStateException: Não é possível alterar um ticket já finalizado ou cancelado.]
+2026-06-05 13:17:15 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Wilson | Descrição: Técnico 'Wilson' assumiu o chamado 'adwa' do cliente 'Fedendo'
+2026-06-05 13:23:13 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [USER_CREATED] | Alvo: vicente.tecnico@gmail.com | Descrição: Usuário com o email 'vicente.tecnico@gmail.com' foi criado com sucesso
+2026-06-05 13:24:37 INFO  [https-jsse-nio-8443-exec-2] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: admin@wilson.com | Descrição: Login realizado com sucesso. Usuário: WilsonAdmin
+2026-06-05 13:24:37 WARN  [https-jsse-nio-8443-exec-1] o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-05 13:26:53 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [USER_CREATED] | Alvo: vicente.tech@gmail.com | Descrição: Técnico com o email 'vicente.tech@gmail.com' foi criado com sucesso pelo Admin
+2026-06-05 13:27:20 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: vicente.tech@gmail.com | Descrição: Login realizado com sucesso. Usuário: Vicente
+2026-06-05 13:31:25 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Vicente | Descrição: Técnico 'Vicente' assumiu o chamado 'swswsw' do cliente 'Fedendo'
+2026-06-05 13:34:31 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Vicente | Descrição: Atendimento iniciado para o chamado 'swswsw'
+2026-06-05 13:34:34 INFO  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 30e896ed-b6a9-4fdc-af48-0bffc23bfa42 | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 13:39:19 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 13:39:19 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 13:39:19 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 13:39:19 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-06-05 13:39:19 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2026-06-05 13:39:27 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 13:39:27 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 5592 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 13:39:27 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 13:39:27 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 13:39:27 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 13:39:28 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 13:39:28 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 75 ms. Found 7 JPA repository interfaces.
+2026-06-05 13:39:29 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 13:39:29 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 13:39:29 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 13:39:29 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 13:39:29 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2055 ms
+2026-06-05 13:39:29 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 13:39:29 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 13:39:30 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 13:39:30 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 13:39:31 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2b9a8413
+2026-06-05 13:39:31 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 13:39:31 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 13:39:31 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 13:39:32 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 13:39:32 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 13:39:32 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 13:39:33 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 13:39:34 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 13:39:36 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 13:39:36 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 13:39:36 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 13:39:36 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 10.184 seconds (process running for 10.971)
+2026-06-05 13:39:47 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 13:39:47 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 13:39:47 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 13:39:47 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 13:39:47 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 13:39:51 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 13:39:51 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 3120 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 13:39:52 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 13:39:52 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 13:39:52 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 13:39:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 13:39:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 7 JPA repository interfaces.
+2026-06-05 13:39:54 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 13:39:54 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 13:39:54 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 13:39:54 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 13:39:54 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2192 ms
+2026-06-05 13:39:54 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 13:39:54 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 13:39:55 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 13:39:55 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 13:39:55 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@436e4b3e
+2026-06-05 13:39:56 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 13:39:56 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 13:39:56 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 13:39:57 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 13:39:57 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 13:39:58 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 13:39:58 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 13:39:59 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 13:40:00 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 13:40:00 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 13:40:00 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 13:40:00 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 9.605 seconds (process running for 10.386)
+2026-06-05 13:42:24 INFO  [https-jsse-nio-8443-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 13:42:24 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 13:42:24 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-06-05 13:45:11 INFO  [https-jsse-nio-8443-exec-9] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 30e896ed-b6a9-4fdc-af48-0bffc23bfa42 | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 13:45:47 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: ad4644be-2009-448d-b945-3fb77b36b23b | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 13:45:52 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: ad4644be-2009-448d-b945-3fb77b36b23b | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 13:48:34 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 30e896ed-b6a9-4fdc-af48-0bffc23bfa42 | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 13:48:58 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: 30e896ed-b6a9-4fdc-af48-0bffc23bfa42 | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 13:49:19 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: ad4644be-2009-448d-b945-3fb77b36b23b | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 13:49:29 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [TICKET_STARTED] | Alvo: Wilson | Descrição: Atendimento iniciado para o chamado 'adwa'
+2026-06-05 13:49:32 INFO  [https-jsse-nio-8443-exec-9] b.c.W.A.services.AuditService - [HISTORY_UPDATED] | Alvo: ad4644be-2009-448d-b945-3fb77b36b23b | Descrição: O técnico Vicente atualizou o chamado do clienteFedendo
+2026-06-05 14:50:56 WARN  [https-jsse-nio-8443-exec-1] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson.tecnico@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson.tecnico@gmail.com
+2026-06-05 14:50:57 WARN  [https-jsse-nio-8443-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 14:51:02 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: Wilson.tecnico@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 14:53:31 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: admin@wilson.com | Descrição: Login realizado com sucesso. Usuário: WilsonAdmin
+2026-06-05 14:53:31 WARN  [https-jsse-nio-8443-exec-6] o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-05 15:15:45 WARN  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: Vicente.tech@gmail.com | Descrição: Tentativa de login com email não cadastrado: Vicente.tech@gmail.com
+2026-06-05 15:15:45 WARN  [https-jsse-nio-8443-exec-3] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 15:16:03 WARN  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: Vicente.tech@gmail.com | Descrição: Tentativa de login com email não cadastrado: Vicente.tech@gmail.com
+2026-06-05 15:16:03 WARN  [https-jsse-nio-8443-exec-4] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 15:16:29 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: vicente.tech@gmail.com | Descrição: Login realizado com sucesso. Usuário: Vicente
+2026-06-05 15:28:45 INFO  [https-jsse-nio-8443-exec-9] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Vicente | Descrição: Técnico 'Vicente' assumiu o chamado 'dwadawdwa' do cliente 'Fedendo'
+2026-06-05 15:51:05 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 15:51:05 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 15:51:05 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 15:51:05 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 15:51:05 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 15:51:08 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 15:51:08 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 9520 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 15:51:08 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 15:51:08 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 15:51:08 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 15:51:09 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 15:51:09 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 70 ms. Found 7 JPA repository interfaces.
+2026-06-05 15:51:10 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 15:51:10 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 15:51:10 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 15:51:10 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 15:51:10 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2111 ms
+2026-06-05 15:51:10 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 15:51:11 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 15:51:11 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 15:51:11 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 15:51:12 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@57a3e823
+2026-06-05 15:51:12 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 15:51:12 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 15:51:12 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 15:51:14 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 15:51:15 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 15:51:15 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 15:51:15 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 15:51:16 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 15:51:17 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 15:51:17 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 15:51:17 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 15:51:17 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 10.091 seconds (process running for 10.864)
+2026-06-05 15:52:00 INFO  [https-jsse-nio-8443-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 15:52:00 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 15:52:00 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-06-05 15:52:00 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [USER_CREATED] | Alvo: wilson@gmail.com | Descrição: Usuário com o email 'wilson@gmail.com' foi criado com sucesso
+2026-06-05 15:55:20 WARN  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson.qdop@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson.qdop@gmail.com
+2026-06-05 15:55:20 WARN  [https-jsse-nio-8443-exec-5] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 15:55:24 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: wilson@gmail.com | Descrição: Login realizado com sucesso. Usuário: wilson
+2026-06-05 15:55:40 INFO  [https-jsse-nio-8443-exec-1] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: wilson | Descrição: Chamado criado: 'OI' | Categoria: NETWORK | Prioridade: MEDIUM
+2026-06-05 15:56:20 INFO  [https-jsse-nio-8443-exec-9] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: admin@wilson.com | Descrição: Login realizado com sucesso. Usuário: WilsonAdmin
+2026-06-05 15:56:20 WARN  [https-jsse-nio-8443-exec-5] o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-05 15:56:54 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [USER_CREATED] | Alvo: wilson.tech@gmail.com | Descrição: Técnico com o email 'wilson.tech@gmail.com' foi criado com sucesso pelo Admin
+2026-06-05 15:57:13 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: wilson.tech@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 15:57:17 INFO  [https-jsse-nio-8443-exec-2] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Wilson | Descrição: Técnico 'Wilson' assumiu o chamado 'OI' do cliente 'wilson'
+2026-06-05 16:08:05 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2026-06-05 16:08:06 INFO  [Thread-1] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:08:06 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:08:06 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:08:06 INFO  [Thread-1] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:08:06 INFO  [Thread-1] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:08:06 INFO  [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 16:08:06 INFO  [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 16:08:06 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 9520 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:08:06 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:08:06 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:08:06 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:08:07 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:08:07 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:08:07 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:08:07 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:08:07 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1367 ms
+2026-06-05 16:08:07 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:08:07 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:08:07 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-06-05 16:08:08 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@3b629314
+2026-06-05 16:08:08 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-06-05 16:08:08 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:08:08 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:08:08 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:08:08 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:08:08 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:08:09 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:08:09 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:08:09 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:08:10 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:08:10 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 3.885 seconds (process running for 1023.145)
+2026-06-05 16:08:10 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-06-05 16:10:52 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2026-06-05 16:10:52 INFO  [Thread-5] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:10:52 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:10:52 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:10:52 INFO  [Thread-5] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:10:52 INFO  [Thread-5] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:10:52 INFO  [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-06-05 16:10:52 INFO  [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-06-05 16:10:52 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 9520 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:10:52 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:10:52 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:10:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 28 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:10:53 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:10:53 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:10:54 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:10:54 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:10:54 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1701 ms
+2026-06-05 16:10:54 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:10:54 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:10:54 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-06-05 16:10:54 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@26a9c9a9
+2026-06-05 16:10:54 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-06-05 16:10:54 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:10:54 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:10:54 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:10:55 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:10:55 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:10:55 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:10:55 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:10:55 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:10:55 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:10:55 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 3.429 seconds (process running for 1188.875)
+2026-06-05 16:10:56 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-06-05 16:15:53 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 3 class path changes (3 additions, 0 deletions, 0 modifications)
+2026-06-05 16:15:53 INFO  [Thread-9] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:15:53 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:15:53 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:15:53 INFO  [Thread-9] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:15:53 INFO  [Thread-9] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:15:53 INFO  [Thread-9] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-06-05 16:15:53 INFO  [Thread-9] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2026-06-05 16:15:53 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 9520 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:15:53 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:15:54 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:15:54 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 26 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:15:54 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:15:54 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:15:54 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:15:54 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:15:54 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 954 ms
+2026-06-05 16:15:54 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:15:54 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:15:54 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2026-06-05 16:15:54 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@35f90b1b
+2026-06-05 16:15:54 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2026-06-05 16:15:54 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:15:55 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:15:55 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:15:56 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:15:56 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:15:57 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:15:57 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:15:57 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:15:57 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:15:57 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 4.188 seconds (process running for 1490.691)
+2026-06-05 16:15:58 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-06-05 16:16:56 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-06-05 16:16:56 INFO  [Thread-13] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:16:56 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:16:56 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:16:56 INFO  [Thread-13] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:16:56 INFO  [Thread-13] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:16:56 INFO  [Thread-13] com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2026-06-05 16:16:56 INFO  [Thread-13] com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2026-06-05 16:16:56 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 9520 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:16:56 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:16:56 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:16:56 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 33 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:16:57 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:16:57 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:16:57 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:16:57 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:16:57 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 525 ms
+2026-06-05 16:16:57 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:16:57 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:16:57 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2026-06-05 16:16:57 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@6ad3eebd
+2026-06-05 16:16:57 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2026-06-05 16:16:57 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:16:57 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:16:57 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:16:57 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:16:58 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:16:58 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:16:58 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:16:58 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:16:58 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:16:59 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 2.45 seconds (process running for 1551.926)
+2026-06-05 16:16:59 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-06-05 16:18:12 INFO  [https-jsse-nio-8443-exec-6] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 16:18:12 INFO  [https-jsse-nio-8443-exec-6] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 16:18:12 INFO  [https-jsse-nio-8443-exec-6] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-06-05 16:18:12 INFO  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: admin@wilson.com | Descrição: Login realizado com sucesso. Usuário: WilsonAdmin
+2026-06-05 16:25:49 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2026-06-05 16:25:50 INFO  [Thread-17] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:25:50 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:25:50 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:25:50 INFO  [Thread-17] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:25:50 INFO  [Thread-17] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:25:50 INFO  [Thread-17] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2026-06-05 16:25:50 INFO  [Thread-17] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2026-06-05 16:25:50 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 9520 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:25:50 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:25:50 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:25:50 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 26 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:25:50 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:25:50 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:25:51 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:25:51 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:25:51 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1172 ms
+2026-06-05 16:25:51 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:25:51 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:25:51 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2026-06-05 16:25:51 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@33570118
+2026-06-05 16:25:51 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2026-06-05 16:25:51 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:25:51 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:25:51 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:25:52 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:25:52 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:25:52 ERROR [restartedMain] o.s.b.t.s.DeferredServletContainerInitializers - Error starting Tomcat context. Exception: org.springframework.beans.factory.BeanCreationException. Message: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+2026-06-05 16:25:52 INFO  [restartedMain] o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2026-06-05 16:25:52 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-6:housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1166)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:883)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1016)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:25:52 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-6:connection-adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:460)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1015)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:25:52 WARN  [restartedMain] o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-06-05 16:25:52 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:25:52 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2026-06-05 16:25:52 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2026-06-05 16:25:52 INFO  [restartedMain] o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-05 16:25:52 ERROR [restartedMain] o.s.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at br.com.Wilson.AgendamentoTecnico.AgendamentoTecnicoApplication.main(AgendamentoTecnicoApplication.java:12)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:52)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:150)
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
+	... 11 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:499)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1446)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:231)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:185)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:180)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:165)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:97)
+	at org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.initialize(WebApplicationContextInitializer.java:53)
+	at org.springframework.boot.tomcat.servlet.DeferredServletContainerInitializers.onStartup(DeferredServletContainerInitializers.java:55)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4416)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435)
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131)
+	... 16 common frames omitted
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'jwt.key.secret' in value "${jwt.key.secret}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:296)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:129)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:96)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:286)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:257)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:184)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:959)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1672)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:764)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:748)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:493)
+	... 54 common frames omitted
+2026-06-05 16:25:54 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 9520 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:25:55 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:25:55 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:25:55 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 23 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:25:55 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:25:55 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:25:55 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:25:55 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:25:55 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 494 ms
+2026-06-05 16:25:55 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:25:55 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:25:55 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2026-06-05 16:25:55 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@712c48c6
+2026-06-05 16:25:55 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2026-06-05 16:25:55 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:25:55 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:25:55 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:25:57 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:25:57 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:25:57 ERROR [restartedMain] o.s.b.t.s.DeferredServletContainerInitializers - Error starting Tomcat context. Exception: org.springframework.beans.factory.BeanCreationException. Message: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+2026-06-05 16:25:57 INFO  [restartedMain] o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2026-06-05 16:25:57 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-7:housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1166)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:883)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1016)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:25:57 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-7:connection-adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:460)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1015)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:25:57 WARN  [restartedMain] o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-06-05 16:25:57 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:25:57 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2026-06-05 16:25:57 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2026-06-05 16:25:57 INFO  [restartedMain] o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-05 16:25:57 ERROR [restartedMain] o.s.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at br.com.Wilson.AgendamentoTecnico.AgendamentoTecnicoApplication.main(AgendamentoTecnicoApplication.java:12)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:52)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:150)
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
+	... 11 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:499)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1446)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:231)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:185)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:180)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:165)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:97)
+	at org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.initialize(WebApplicationContextInitializer.java:53)
+	at org.springframework.boot.tomcat.servlet.DeferredServletContainerInitializers.onStartup(DeferredServletContainerInitializers.java:55)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4416)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435)
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131)
+	... 16 common frames omitted
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'jwt.key.secret' in value "${jwt.key.secret}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:296)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:129)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:96)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:286)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:257)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:184)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:959)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1672)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:764)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:748)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:493)
+	... 54 common frames omitted
+2026-06-05 16:26:10 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 16:26:10 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 20312 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:26:10 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:26:10 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 16:26:10 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 16:26:11 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:26:11 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 78 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:26:12 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:26:12 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:26:12 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:26:12 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:26:13 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2176 ms
+2026-06-05 16:26:13 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:26:13 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 16:26:14 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:26:14 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 16:26:14 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4cf67cb0
+2026-06-05 16:26:14 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 16:26:14 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:26:14 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:26:16 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:26:17 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:26:17 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 16:26:17 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:26:18 ERROR [restartedMain] o.s.b.t.s.DeferredServletContainerInitializers - Error starting Tomcat context. Exception: org.springframework.beans.factory.BeanCreationException. Message: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+2026-06-05 16:26:18 INFO  [restartedMain] o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2026-06-05 16:26:18 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1:housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1166)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:883)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1016)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:26:18 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1:connection-adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:460)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1015)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:26:18 WARN  [restartedMain] o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-06-05 16:26:18 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:26:18 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 16:26:18 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 16:26:18 INFO  [restartedMain] o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-05 16:26:18 ERROR [restartedMain] o.s.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at br.com.Wilson.AgendamentoTecnico.AgendamentoTecnicoApplication.main(AgendamentoTecnicoApplication.java:12)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:52)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:150)
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
+	... 11 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:499)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1446)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:231)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:185)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:180)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:165)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:97)
+	at org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.initialize(WebApplicationContextInitializer.java:53)
+	at org.springframework.boot.tomcat.servlet.DeferredServletContainerInitializers.onStartup(DeferredServletContainerInitializers.java:55)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4416)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435)
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131)
+	... 16 common frames omitted
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'jwt.key.secret' in value "${jwt.key.secret}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:296)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:129)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:96)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:286)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:257)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:184)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:959)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1672)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:764)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:748)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:493)
+	... 54 common frames omitted
+2026-06-05 16:26:56 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 16:26:56 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 8976 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:26:56 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:26:56 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 16:26:56 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 16:26:57 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:26:57 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 89 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:26:58 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:26:58 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:26:59 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:26:59 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:26:59 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2866 ms
+2026-06-05 16:26:59 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:26:59 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 16:27:00 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:27:01 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 16:27:01 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1f46380
+2026-06-05 16:27:02 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 16:27:02 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:27:02 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:27:03 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:27:04 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:27:04 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 16:27:04 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:27:04 ERROR [restartedMain] o.s.b.t.s.DeferredServletContainerInitializers - Error starting Tomcat context. Exception: org.springframework.beans.factory.BeanCreationException. Message: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+2026-06-05 16:27:04 INFO  [restartedMain] o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2026-06-05 16:27:05 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1:housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1166)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:883)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1016)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:27:05 WARN  [restartedMain] o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1:connection-adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:271)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1803)
+ java.base/java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:460)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1015)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1474)
+2026-06-05 16:27:05 WARN  [restartedMain] o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-06-05 16:27:05 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:27:05 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 16:27:05 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 16:27:05 INFO  [restartedMain] o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-05 16:27:05 ERROR [restartedMain] o.s.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at br.com.Wilson.AgendamentoTecnico.AgendamentoTecnicoApplication.main(AgendamentoTecnicoApplication.java:12)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:52)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:150)
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
+	... 11 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityFilter': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:499)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1446)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:231)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:185)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:180)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:165)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:97)
+	at org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.initialize(WebApplicationContextInitializer.java:53)
+	at org.springframework.boot.tomcat.servlet.DeferredServletContainerInitializers.onStartup(DeferredServletContainerInitializers.java:55)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4416)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435)
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131)
+	... 16 common frames omitted
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'JWT_SECRET' in value "${JWT_SECRET}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:296)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:129)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:96)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:286)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:257)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:184)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:959)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1672)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:764)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:748)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:493)
+	... 54 common frames omitted
+2026-06-05 16:27:31 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 16:27:31 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 19220 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:27:31 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:27:31 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 16:27:31 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 16:27:32 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:27:32 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:27:33 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:27:33 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:27:33 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:27:33 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:27:33 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1946 ms
+2026-06-05 16:27:33 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:27:33 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 16:27:34 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:27:34 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 16:27:35 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4aa13d2d
+2026-06-05 16:27:35 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 16:27:36 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:27:36 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:27:37 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:27:38 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:27:38 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 16:27:38 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:27:39 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:27:40 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:27:40 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:27:40 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:27:40 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 9.955 seconds (process running for 11.192)
+2026-06-05 16:29:00 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:29:00 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:29:00 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:29:00 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 16:29:00 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 16:29:03 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 16:29:03 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 7192 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:29:03 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:29:03 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 16:29:03 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 16:29:04 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:29:04 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 67 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:29:05 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:29:05 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:29:05 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:29:05 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:29:05 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2068 ms
+2026-06-05 16:29:05 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:29:05 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 16:29:06 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:29:06 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 16:29:06 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@62126664
+2026-06-05 16:29:06 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 16:29:06 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:29:06 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:29:08 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:29:08 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:29:09 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 16:29:09 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:29:10 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:29:11 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:29:11 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:29:11 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:29:11 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 8.914 seconds (process running for 9.995)
+2026-06-05 16:31:14 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:31:14 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:31:15 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:31:15 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 16:31:15 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 16:31:22 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 16:31:22 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 19596 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:31:22 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:31:22 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 16:31:22 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 16:31:23 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:31:24 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 90 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:31:25 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:31:25 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:31:25 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:31:25 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:31:25 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2472 ms
+2026-06-05 16:31:25 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:31:25 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 16:31:26 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:31:26 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 16:31:26 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1535b633
+2026-06-05 16:31:26 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 16:31:27 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:31:27 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:31:28 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:31:29 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:31:29 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 16:31:29 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:31:31 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:31:31 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:31:31 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:31:31 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:31:32 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 10.381 seconds (process running for 11.18)
+2026-06-05 16:31:37 INFO  [https-jsse-nio-8443-exec-6] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 16:31:37 INFO  [https-jsse-nio-8443-exec-6] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 16:31:38 INFO  [https-jsse-nio-8443-exec-6] o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-06-05 16:31:43 INFO  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: admin@wilson.com | Descrição: Login realizado com sucesso. Usuário: WilsonAdmin
+2026-06-05 16:46:42 WARN  [https-jsse-nio-8443-exec-8] o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-05 16:46:42 WARN  [https-jsse-nio-8443-exec-2] o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-05 16:48:14 WARN  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson@gmail.com
+2026-06-05 16:48:14 WARN  [https-jsse-nio-8443-exec-4] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 16:48:26 WARN  [https-jsse-nio-8443-exec-6] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson@gmail.com
+2026-06-05 16:48:26 WARN  [https-jsse-nio-8443-exec-6] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 16:48:28 WARN  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson@gmail.com
+2026-06-05 16:48:28 WARN  [https-jsse-nio-8443-exec-3] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 16:48:54 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-06-05 16:48:55 INFO  [Thread-1] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 16:48:55 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:48:55 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 16:48:55 INFO  [Thread-1] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:48:55 INFO  [Thread-1] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:48:55 INFO  [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 16:48:55 INFO  [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-05 16:48:55 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 19596 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 16:48:55 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 16:48:56 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 16:48:56 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 30 ms. Found 7 JPA repository interfaces.
+2026-06-05 16:48:56 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 16:48:56 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:48:56 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 16:48:56 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 16:48:57 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1142 ms
+2026-06-05 16:48:57 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 16:48:57 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 16:48:57 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-06-05 16:48:57 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@6363f7e2
+2026-06-05 16:48:57 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-06-05 16:48:57 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 16:48:57 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 16:48:57 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 16:48:58 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 16:48:58 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 16:48:58 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 16:48:59 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 16:48:59 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 16:49:00 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 16:49:00 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 4.84 seconds (process running for 1058.845)
+2026-06-05 16:49:00 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-06-05 16:49:18 INFO  [https-jsse-nio-8443-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 16:49:19 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 16:49:19 INFO  [https-jsse-nio-8443-exec-9] o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-06-05 16:49:19 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [USER_CREATED] | Alvo: wilson@gmail.com | Descrição: Usuário com o email 'wilson@gmail.com' foi criado com sucesso
+2026-06-05 16:52:04 WARN  [https-jsse-nio-8443-exec-7] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson.qdop@gmail.com | Descrição: Tentativa de login com email não cadastrado: wilson.qdop@gmail.com
+2026-06-05 16:52:04 WARN  [https-jsse-nio-8443-exec-7] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.PersonNotFoundException: usuário com email " + email + " não foi encontrado.]
+2026-06-05 16:52:08 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: wilson@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 17:11:16 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: admin@wilson.com | Descrição: Login realizado com sucesso. Usuário: WilsonAdmin
+2026-06-05 17:11:16 WARN  [https-jsse-nio-8443-exec-5] o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-05 17:11:34 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: wilson@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 17:14:20 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: wilson@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 17:15:42 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 17:15:42 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 17:15:42 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 17:15:42 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-06-05 17:15:42 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-06-05 17:15:47 INFO  [background-preinit] o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-06-05 17:15:47 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Starting AgendamentoTecnicoApplication using Java 25.0.3 with PID 11632 (C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2\target\classes started by Wilson in C:\Users\Wilson\Desktop\AgendamentosTecnico_Integrado_v2)
+2026-06-05 17:15:47 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-05 17:15:47 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-05 17:15:47 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-05 17:15:48 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-05 17:15:48 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 67 ms. Found 7 JPA repository interfaces.
+2026-06-05 17:15:49 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2026-06-05 17:15:49 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 17:15:49 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-05 17:15:49 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-05 17:15:49 INFO  [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2138 ms
+2026-06-05 17:15:50 INFO  [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-05 17:15:50 INFO  [restartedMain] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-06-05 17:15:50 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-05 17:15:51 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-05 17:15:51 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4f810d79
+2026-06-05 17:15:51 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-05 17:15:51 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-05 17:15:51 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamentos_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.18
+	Default catalog/schema: agendamentos_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-05 17:15:53 INFO  [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-05 17:15:53 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 17:15:53 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-05 17:15:54 WARN  [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-05 17:15:55 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-05 17:15:56 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2026-06-05 17:15:56 INFO  [restartedMain] o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [Set directly - location unknown] using alias [backend] with trust store [null]
+2026-06-05 17:15:56 INFO  [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2026-06-05 17:15:56 INFO  [restartedMain] b.c.W.A.AgendamentoTecnicoApplication - Started AgendamentoTecnicoApplication in 9.732 seconds (process running for 10.507)
+2026-06-05 17:16:14 INFO  [https-jsse-nio-8443-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-05 17:16:14 INFO  [https-jsse-nio-8443-exec-4] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-06-05 17:16:15 INFO  [https-jsse-nio-8443-exec-4] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-06-05 17:16:15 INFO  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: Wilson | Descrição: Chamado criado: 'Meu pc está com vírus' | Categoria: SOFTWARE | Prioridade: MEDIUM
+2026-06-05 17:16:28 INFO  [https-jsse-nio-8443-exec-4] b.c.W.A.services.AuditService - [TICKET_CREATED] | Alvo: Wilson | Descrição: Chamado criado: 'dwadwa' | Categoria: NETWORK | Prioridade: MEDIUM
+2026-06-05 17:17:08 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: admin@wilson.com | Descrição: Login realizado com sucesso. Usuário: WilsonAdmin
+2026-06-05 17:17:08 WARN  [https-jsse-nio-8443-exec-1] o.s.d.w.c.SpringDataJackson3Configuration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-06-05 17:17:34 WARN  [https-jsse-nio-8443-exec-10] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<br.com.Wilson.AgendamentoTecnico.dto.CreateTechnicalResponseDTO> br.com.Wilson.AgendamentoTecnico.controllers.AdminController.createTechnical(br.com.Wilson.AgendamentoTecnico.dto.request.CreateTechnicalRequestDTO): [Field error in object 'createTechnicalRequestDTO' on field 'password': rejected value [123]; codes [Pattern.createTechnicalRequestDTO.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [createTechnicalRequestDTO.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@6abef9d3,^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{10,}$]; default message [A senha deve ter no mínimo 10 caracteres, uma letra maiúscula, uma minúscula e um símbolo]] ]
+2026-06-05 17:17:56 INFO  [https-jsse-nio-8443-exec-10] b.c.W.A.services.AuditService - [USER_CREATED] | Alvo: wilson.tech@gmail.com | Descrição: Técnico com o email 'wilson.tech@gmail.com' foi criado com sucesso pelo Admin
+2026-06-05 17:24:01 WARN  [https-jsse-nio-8443-exec-5] b.c.W.A.services.AuditService - [LOGIN_FAILED] | Alvo: wilson.tech@gmail.com | Descrição: Senha incorreta para o usuário: Wilson | Tentativa 1 de 5 | Data/hora: 2026-06-05T17:24:01.501248500
+2026-06-05 17:24:01 WARN  [https-jsse-nio-8443-exec-5] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [br.com.Wilson.AgendamentoTecnico.exceptions.InvalidPasswordException: Senha incorreta.]
+2026-06-05 17:24:03 INFO  [https-jsse-nio-8443-exec-8] b.c.W.A.services.AuditService - [LOGIN_SUCCESS] | Alvo: wilson.tech@gmail.com | Descrição: Login realizado com sucesso. Usuário: Wilson
+2026-06-05 17:24:13 INFO  [https-jsse-nio-8443-exec-3] b.c.W.A.services.AuditService - [TICKET_ASSIGNED] | Alvo: Wilson | Descrição: Técnico 'Wilson' assumiu o chamado 'Meu pc está com vírus' do cliente 'Wilson'
+2026-06-05 17:45:04 INFO  [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-05 17:45:04 INFO  [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-06-05 17:45:04 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-05 17:45:04 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-05 17:45:04 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

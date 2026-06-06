@@ -1,0 +1,23 @@
+package br.com.Wilson.AgendamentoTecnico.model.enums;
+
+public enum AuditAction {
+
+    USER_CREATED,
+    USER_UPDATED,
+    USER_DELETED,
+
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
+    LOGIN_BLOCKED,
+
+    TICKET_CREATED,
+    TICKET_CANCELED,
+    TICKET_ASSIGNED,
+    TICKET_STARTED,
+    TICKET_FINISHED,
+    TICKET_PAYMENT,
+    TICKET_VIEWED,
+    TICKET_FINISHED_PAYMENT_CANCELED,
+
+    HISTORY_UPDATED
+}
