@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Ticket, Technician, TicketStatus, Priority, TicketUpdate } from '../types';
-import { X, Clock, Loader2, Plus, Lock } from 'lucide-react';
+import { X, Clock, Loader2, Plus, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { api } from '../services/api';
 
 interface DetalheChamadoProps {
@@ -18,6 +18,15 @@ const STATUS_OPTIONS: { value: TicketStatus; label: string }[] = [
   { value: 'COMPLETED',   label: '🟢 Concluído' },
   { value: 'CANCELED',    label: '⚪ Cancelado' },
 ];
+
+const STATUS_LABEL: Record<TicketStatus, string> = {
+  OPEN:            'Aberto',
+  ASSIGNED:        'Atribuído',
+  IN_PROGRESS:     'Em Andamento',
+  COMPLETED:       'Concluído',
+  CANCELED:        'Cancelado',
+  PAYMENT_PENDING: 'Pagamento Pendente',
+};
 
 const PRIORITY_LABEL: Record<Priority, string> = {
   HIGH:   'Alta',
@@ -38,8 +47,9 @@ export function DetalheChamado({
   const ticketTechId   = ticket.technicalId || '';
   const ticketTechName = ticket.technicalName || '';
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  // 🔥 PAGINAÇÃO DO HISTÓRICO
+  const ITEMS_PER_PAGE = 4;
+  const [currentHistoryPage, setCurrentHistoryPage] = useState(1);
 
   const isAssignedToMe = !!loggedTechId && !!ticketTechId && loggedTechId === ticketTechId;
   const canEdit        = isAssignedToMe;
@@ -56,6 +66,7 @@ export function DetalheChamado({
   useEffect(() => {
     if (ticket.updates) {
       setLocalUpdates(ticket.updates);
+      setCurrentHistoryPage(1); // Reset à página 1 quando houver novos updates
     }
     refetchTicketDetails();
   }, [ticket.updates]);
@@ -181,6 +192,24 @@ export function DetalheChamado({
     return null;
   })();
 
+  // 🔥 LÓGICA DE PAGINAÇÃO
+  const totalHistoryPages = Math.ceil(localUpdates.length / ITEMS_PER_PAGE);
+  const startIndex = (currentHistoryPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedUpdates = localUpdates.slice(startIndex, endIndex);
+
+  // Para facilitar, vamos reverter a ordem para mostrar as mais recentes primeiro
+  const reversedUpdates = [...localUpdates].reverse();
+  const paginatedReversedUpdates = reversedUpdates.slice(startIndex, endIndex);
+
+  const handlePreviousPage = () => {
+    setCurrentHistoryPage(prev => Math.max(1, prev - 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentHistoryPage(prev => Math.min(totalHistoryPages, prev + 1));
+  };
+
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-xl overflow-hidden max-w-4xl mx-auto">
 
@@ -224,7 +253,7 @@ export function DetalheChamado({
             </p>
           </div>
 
-          {/* Timeline mapeada com chaves do estado isolado localUpdates */}
+          {/* Timeline com PAGINAÇÃO 🔥 */}
           <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-zinc-800/80">
             <h3 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-widest flex items-center gap-1">
               <Clock className="w-4 h-4 text-indigo-400" /> Histórico de Atualizações
@@ -233,20 +262,53 @@ export function DetalheChamado({
             {(!localUpdates || localUpdates.length === 0) ? (
               <p className="text-xs text-slate-400 dark:text-zinc-500 italic pl-3">Nenhuma ação registrada neste chamado até o momento.</p>
             ) : (
-              <div className="space-y-3 max-h-[260px] overflow-y-auto pr-2 relative border-l-2 border-slate-100 dark:border-zinc-800 pl-4">
-                {localUpdates.map((up) => (
-                  <div key={up.id} className="text-xs space-y-1 relative">
-                    <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-indigo-400 dark:bg-indigo-600 border-2 border-white dark:border-zinc-900" />
-                    <div className="flex items-center justify-between text-[10px] text-slate-400">
-                      <span>{up.changeDate}</span>
-                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{up.updateBy}</span>
+              <>
+                {/* Timeline */}
+                <div className="space-y-3 max-h-[260px] overflow-y-auto pr-2 relative border-l-2 border-slate-100 dark:border-zinc-800 pl-4">
+                  {paginatedReversedUpdates.map((up) => (
+                    <div key={up.id} className="text-xs space-y-1 relative">
+                      <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-indigo-400 dark:bg-indigo-600 border-2 border-white dark:border-zinc-900" />
+                      <div className="flex items-center justify-between text-[10px] text-slate-400">
+                        <span>{up.changeDate}</span>
+                        <span className="font-bold text-indigo-600 dark:text-indigo-400">{up.updateBy}</span>
+                      </div>
+                      <p className="text-slate-700 dark:text-zinc-300 leading-relaxed bg-slate-50/60 dark:bg-zinc-800/20 p-2 rounded-lg mt-0.5">
+                        {up.comment}
+                      </p>
                     </div>
-                    <p className="text-slate-700 dark:text-zinc-300 leading-relaxed bg-slate-50/60 dark:bg-zinc-800/20 p-2 rounded-lg mt-0.5">
-                      {up.comment}
-                    </p>
+                  ))}
+                </div>
+
+                {/* 🔥 CONTROLES DE PAGINAÇÃO */}
+                {totalHistoryPages > 1 && (
+                  <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-zinc-800">
+                    <button
+                      onClick={handlePreviousPage}
+                      disabled={currentHistoryPage === 1}
+                      className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-all"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                      Anterior
+                    </button>
+
+                    <span className="text-xs font-semibold text-slate-500 dark:text-zinc-400">
+                      Página {currentHistoryPage} de {totalHistoryPages} 
+                      <span className="ml-1 text-slate-400 dark:text-zinc-500">
+                        ({localUpdates.length} registros)
+                      </span>
+                    </span>
+
+                    <button
+                      onClick={handleNextPage}
+                      disabled={currentHistoryPage === totalHistoryPages}
+                      className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-all"
+                    >
+                      Próxima
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </div>
         </div>
