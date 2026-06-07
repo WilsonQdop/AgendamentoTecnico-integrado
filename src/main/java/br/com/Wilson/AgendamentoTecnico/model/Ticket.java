@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +20,9 @@ public class Ticket {
     private Customer customer;
     @ManyToOne
     private Technical technical;
+
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TicketHistory> ticketHistories = new ArrayList<>();
 
     private String title;
     private String description;
@@ -36,6 +41,14 @@ public class Ticket {
     private LocalDateTime startedAt;
 
     BigDecimal baseHourlyRate = BigDecimal.valueOf(100);
+
+    public List<TicketHistory> getTicketHistories() {
+        return ticketHistories;
+    }
+
+    public void setTicketHistories(List<TicketHistory> ticketHistories) {
+        this.ticketHistories = ticketHistories;
+    }
 
     public UUID getId() {
         return id;

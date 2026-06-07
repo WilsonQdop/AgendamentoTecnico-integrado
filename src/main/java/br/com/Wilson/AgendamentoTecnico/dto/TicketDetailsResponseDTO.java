@@ -6,6 +6,7 @@ import br.com.Wilson.AgendamentoTecnico.model.enums.StatusEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public record TicketDetailsResponseDTO(
@@ -21,5 +22,8 @@ public record TicketDetailsResponseDTO(
         LocalDateTime creationDate, // Alterado para bater com o JSON do front
         String clientName,          // Alterado para bater com o JSON do front
         String technicalName,
-        UUID technicalId
+        UUID technicalId,
+        List<TicketHistoryResponseDTO> updates // A lista de históricos aqui dentro!
+
+
 ) {}

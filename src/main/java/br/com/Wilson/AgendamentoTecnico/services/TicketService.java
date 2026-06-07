@@ -1,11 +1,8 @@
 package br.com.Wilson.AgendamentoTecnico.services;
 
-import br.com.Wilson.AgendamentoTecnico.dto.CreateTicketResponseDTO;
-import br.com.Wilson.AgendamentoTecnico.dto.TicketAssignedResponseDTO;
-import br.com.Wilson.AgendamentoTecnico.dto.TicketDetailsResponseDTO;
+import br.com.Wilson.AgendamentoTecnico.dto.*;
 import br.com.Wilson.AgendamentoTecnico.dto.request.CreateTicketRequestDTO;
 import br.com.Wilson.AgendamentoTecnico.dto.request.PaymentRequestDTO;
-import br.com.Wilson.AgendamentoTecnico.dto.TicketSummaryResponseDTO;
 import br.com.Wilson.AgendamentoTecnico.exceptions.*;
 import br.com.Wilson.AgendamentoTecnico.model.Customer;
 import br.com.Wilson.AgendamentoTecnico.model.Person;
@@ -186,6 +183,18 @@ public class TicketService {
                 "Detalhes do chamado '" + ticket.getTitle() + "' visualizados por " + loggedUser.getName()
         );
 
+        // 🔥 1. Converte a lista de TicketHistory da entidade para a lista de DTOs do frontend
+        List<TicketHistoryResponseDTO> historyDTOs = ticket.getTicketHistories().stream()
+                .map(history -> new TicketHistoryResponseDTO(
+                        history.getId(),
+                        history.getComment(),
+                        history.getChangeDate(),
+                        history.getNewStatus(),
+                        history.getUpdateBy()
+                ))
+                .toList();
+
+        // 2. Retorna o record incluindo a lista mapeada no final
         return new TicketDetailsResponseDTO(
                 ticket.getId(),
                 ticket.getTitle(),
@@ -199,7 +208,8 @@ public class TicketService {
                 ticket.getCreatedAt(),
                 ticket.getCustomer() != null ? ticket.getCustomer().getName() : "N/A",
                 ticket.getTechnical() != null ? ticket.getTechnical().getName() : null,
-                ticket.getTechnical() != null ? ticket.getTechnical().getId() : null
+                ticket.getTechnical() != null ? ticket.getTechnical().getId() : null,
+                historyDTOs // 🔥 O novo argumento correspondente à lista 'updates' no record
         );
     }
 

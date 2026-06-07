@@ -68,6 +68,8 @@ export default function App() {
   const [currentAuditPage, setCurrentAuditPage] = useState<number>(0);
   const [totalAuditPages, setTotalAuditPages] = useState<number>(0);
 
+  
+
   const loadInitialData = async () => {
     setIsLoadingData(true);
     const role = getUserRole();
@@ -156,6 +158,7 @@ export default function App() {
           slaEstimate: 'N/A',
           files: t.files || [], 
           updates: t.updates || [], 
+          paymentConfirmed: t.paymentConfirmed || false,
         })));
       }
 
@@ -336,7 +339,6 @@ export default function App() {
     setTickets(prevTickets => 
       prevTickets.map(t => t.id === updatedTicket.id ? updatedTicket : t)
     );
-    await loadInitialData();
   };
 
   const getLoggedTechIdAndName = (): { id: string; name: string } => {

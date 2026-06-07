@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Ticket, Technician, TicketStatus, Priority } from '../types';
+import React, { useState, useEffect } from 'react';
+import { Ticket, Technician, TicketStatus, Priority, TicketUpdate } from '../types';
 import { X, Clock, Loader2, Plus, Lock } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -9,7 +9,6 @@ interface DetalheChamadoProps {
   onUpdateTicket: (updatedTicket: Ticket) => void;
   onClose: () => void;
   currentUserEmail?: string;
-  // UUID do técnico logado, extraído do JWT e resolvido pelo App.tsx
   loggedTechId?: string;
   loggedTechName?: string;
 }
@@ -19,15 +18,6 @@ const STATUS_OPTIONS: { value: TicketStatus; label: string }[] = [
   { value: 'COMPLETED',   label: '🟢 Concluído' },
   { value: 'CANCELED',    label: '⚪ Cancelado' },
 ];
-
-const STATUS_LABEL: Record<TicketStatus, string> = {
-  OPEN:            'Aberto',
-  ASSIGNED:        'Atribuído',
-  IN_PROGRESS:     'Em Andamento',
-  COMPLETED:       'Concluído',
-  CANCELED:        'Cancelado',
-  PAYMENT_PENDING: 'Pagamento Pendente',
-};
 
 const PRIORITY_LABEL: Record<Priority, string> = {
   HIGH:   'Alta',
@@ -45,36 +35,100 @@ export function DetalheChamado({
   loggedTechName,
 }: DetalheChamadoProps) {
 
-  // ─── UUID do técnico vinculado ao chamado (vem do getDetails via App.tsx) ──
-  const ticketTechId   = ticket.technicalId || ticket.assignedTechnicianId || '';
+  const ticketTechId   = ticket.technicalId || '';
   const ticketTechName = ticket.technicalName || '';
 
-  // ─── Comparação estrita por UUID ────────────────────────────────────────────
-  // loggedTechId vem do App.tsx que extrai do JWT + resolve via getDetails.
-  // Se os dois UUIDs baterem, o técnico logado É o dono do chamado.
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   const isAssignedToMe = !!loggedTechId && !!ticketTechId && loggedTechId === ticketTechId;
   const canEdit        = isAssignedToMe;
   const isPending      = ticket.status === 'OPEN' || ticket.status === 'ASSIGNED';
 
-  const displayName = loggedTechName || currentUserEmail || 'Técnico';
-
   const [status, setStatus]               = useState<TicketStatus>(ticket.status);
   const [updateMessage, setUpdateMessage] = useState('');
   const [isUpdating, setIsUpdating]       = useState(false);
+  
+  // 🔥 Estado local isolado para garantir que a timeline mude na hora em que o backend responder
+  const [localUpdates, setLocalUpdates]   = useState<TicketUpdate[]>(ticket.updates || []);
+
+  // Sincroniza o estado local caso o ticket mude via props externamente
+  useEffect(() => {
+    if (ticket.updates) {
+      setLocalUpdates(ticket.updates);
+    }
+    refetchTicketDetails();
+  }, [ticket.updates]);
+
+  // ─── Função auxiliar: Recarrega os dados do ticket do backend ─────────────
+  const refetchTicketDetails = async () => {
+    try {
+      const response = await api.tickets.getDetails(ticket.id);
+      const updatedTicketData = response.data || response;
+      
+      // Captura a lista mapeada no seu Record do Spring Boot (campo 'updates')
+      const rawHistories = updatedTicketData.updates || [];
+
+      // 🔄 NORMALIZAÇÃO: Converte o DTO do Java para a tipagem do Frontend
+      const normalizedUpdates: TicketUpdate[] = rawHistories.map((up: any) => ({
+        id: up.id,
+        comment: up.comment || '',
+        changeDate: up.changeDate 
+          ? new Date(up.changeDate).toLocaleString('pt-BR') 
+          : new Date().toLocaleString('pt-BR'),
+        newStatus: up.newStatus,
+        updateBy: up.updateBy || 'Sistema'
+      }));
+
+      // Transforma a resposta do backend para o tipo Ticket local
+      const transformedTicket: Ticket = {
+        id: updatedTicketData.id,
+        title: updatedTicketData.title,
+        description: updatedTicketData.description || 'Nenhuma descrição fornecida.',
+        category: updatedTicketData.category,
+        priority: updatedTicketData.priority,
+        status: updatedTicketData.status,
+        baseValue: updatedTicketData.baseValue || 100,
+        finalValue: updatedTicketData.finalValue || 100,
+        paymentConfirmed: updatedTicketData.paymentConfirmed || false,
+        creationDate: updatedTicketData.creationDate 
+          ? new Date(updatedTicketData.creationDate).toLocaleString('pt-BR') 
+          : new Date().toLocaleString('pt-BR'),
+        clientName: updatedTicketData.clientName || 'Cliente',
+        technicalId: updatedTicketData.technicalId || '',
+        technicalName: updatedTicketData.technicalName || '',
+        updates: normalizedUpdates,
+
+        // Campos complementares para o layout não quebrar
+        location: ticket.location || 'N/A',
+        equipment: ticket.equipment || 'N/A',
+        clientId: updatedTicketData.clientId || '',
+        slaEstimate: ticket.slaEstimate || 'N/A',
+        files: updatedTicketData.files || [],
+      };
+
+      console.log('✅ Ticket atualizado do backend com histórico mapeado:', transformedTicket);
+      
+      // Força a renderização imediata do histórico local na janela aberta
+      setLocalUpdates(normalizedUpdates);
+      
+      // Envia a atualização para o estado macro no App.tsx
+      onUpdateTicket(transformedTicket);
+      setStatus(transformedTicket.status);
+      
+      return transformedTicket;
+    } catch (err) {
+      console.error('❌ Erro ao recarregar dados do ticket:', err);
+      throw err;
+    }
+  };
 
   const handleStart = async () => {
     if (!canEdit) return;
     setIsUpdating(true);
     try {
       await api.tickets.start(ticket.id);
-      onUpdateTicket({
-        ...ticket,
-        status:               'IN_PROGRESS',
-        technicalId:          loggedTechId!,
-        assignedTechnicianId: loggedTechId!,
-        technicalName:        displayName,
-      });
-      setStatus('IN_PROGRESS');
+      await refetchTicketDetails();
       alert('Chamado iniciado! O contador de horas começou.');
     } catch (err: any) {
       alert(`Erro ao iniciar chamado: ${err.message || 'Erro desconhecido'}`);
@@ -88,30 +142,23 @@ export function DetalheChamado({
     if (!updateMessage.trim() || !canEdit) return;
     setIsUpdating(true);
     try {
-      if (ticket.status !== 'IN_PROGRESS' && ticket.status !== 'COMPLETED') {
-        await api.tickets.start(ticket.id);
-        setStatus('IN_PROGRESS');
-      }
+      // 1. Se o status na tela foi modificado para COMPLETED e o chamado não estava concluído
       if (status === 'COMPLETED' && ticket.status !== 'COMPLETED') {
         await api.tickets.finish(ticket.id);
+      } else if (ticket.status !== 'IN_PROGRESS' && ticket.status !== 'COMPLETED') {
+        // Se ainda for OPEN ou ASSIGNED, inicia por segurança antes de comentar
+        await api.tickets.start(ticket.id);
       }
+
+      // 2. Registra o comentário no histórico através da API
       await api.tickets.changeHistory(ticket.id, { comment: updateMessage });
 
-      onUpdateTicket({
-        ...ticket,
-        status,
-        updates: [
-          ...(ticket.updates ?? []),
-          {
-            id:           `upd-${Date.now()}`,
-            date:         new Date().toLocaleString('pt-BR'),
-            author:       displayName,
-            comment:      updateMessage,
-            statusChange: status !== ticket.status ? status : undefined,
-          },
-        ],
-      });
+      // 3. Recarrega os dados completos sincronizados com as tabelas do banco
+      const updatedTicket = await refetchTicketDetails();
+
+      // 4. Limpa o formulário de texto
       setUpdateMessage('');
+      console.log('✅ Atualização salva e histórico recarregado:', updatedTicket);
     } catch (err: any) {
       alert(`Erro ao atualizar chamado: ${err.message || 'Erro desconhecido'}`);
     } finally {
@@ -127,14 +174,6 @@ export function DetalheChamado({
       default:       return 'bg-slate-400 text-white';
     }
   };
-
-  console.log('🔍 DEBUG:', {
-  ticketTechId,
-  loggedTechId,
-  isAssignedToMe,
-  ticket_technicalId: ticket.technicalId,
-  ticket_assignedTechnicianId: ticket.assignedTechnicianId,
-})
 
   const lockReason = (() => {
     if (!ticketTechId) return 'Este chamado ainda não foi assumido. Vá à lista e clique em "Assumir".';
@@ -185,28 +224,26 @@ export function DetalheChamado({
             </p>
           </div>
 
-          {/* Timeline */}
+          {/* Timeline mapeada com chaves do estado isolado localUpdates */}
           <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-zinc-800/80">
             <h3 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-widest flex items-center gap-1">
               <Clock className="w-4 h-4 text-indigo-400" /> Histórico de Atualizações
             </h3>
-            {(!ticket.updates || ticket.updates.length === 0) ? (
+            
+            {(!localUpdates || localUpdates.length === 0) ? (
               <p className="text-xs text-slate-400 dark:text-zinc-500 italic pl-3">Nenhuma ação registrada neste chamado até o momento.</p>
             ) : (
               <div className="space-y-3 max-h-[260px] overflow-y-auto pr-2 relative border-l-2 border-slate-100 dark:border-zinc-800 pl-4">
-                {ticket.updates.map((up) => (
+                {localUpdates.map((up) => (
                   <div key={up.id} className="text-xs space-y-1 relative">
                     <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-indigo-400 dark:bg-indigo-600 border-2 border-white dark:border-zinc-900" />
                     <div className="flex items-center justify-between text-[10px] text-slate-400">
-                      <span>{up.date}</span>
-                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{up.author}</span>
+                      <span>{up.changeDate}</span>
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{up.updateBy}</span>
                     </div>
-                    <p className="text-slate-700 dark:text-zinc-300 leading-relaxed">{up.comment}</p>
-                    {up.statusChange && (
-                      <span className="inline-block px-1.5 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-[10px] font-semibold text-indigo-700 dark:text-indigo-400 rounded">
-                        Status → {STATUS_LABEL[up.statusChange] ?? up.statusChange}
-                      </span>
-                    )}
+                    <p className="text-slate-700 dark:text-zinc-300 leading-relaxed bg-slate-50/60 dark:bg-zinc-800/20 p-2 rounded-lg mt-0.5">
+                      {up.comment}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -274,6 +311,7 @@ export function DetalheChamado({
             </div>
           </div>
 
+          {/* Formulário com gatilho sincronizado de recarregamento */}
           <form onSubmit={handlePostUpdate} className="pt-4 border-t border-slate-100 dark:border-zinc-800 space-y-3">
             <div className="space-y-1">
               <label className="text-[11px] font-bold text-slate-700 dark:text-zinc-400 uppercase tracking-wide block">Registrar Ação *</label>

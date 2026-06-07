@@ -67,7 +67,7 @@ public class TicketHistoryService {
         auditService.log(AuditAction.HISTORY_UPDATED, ticket.getId().toString(), "O técnico " + technical.getName() + " atualizou o chamado do cliente" +
                 ticket.getCustomer().getName());
 
-        return new TicketHistoryResponseDTO(saved.getComment(), saved.getChangeDate(),
+        return new TicketHistoryResponseDTO(saved.getId(), saved.getComment(), saved.getChangeDate(),
                 saved.getNewStatus(), technical.getName()); // Retornar newStatus
     }
 }

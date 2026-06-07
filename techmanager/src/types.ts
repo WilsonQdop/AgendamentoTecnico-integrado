@@ -37,41 +37,35 @@ export interface Technician {
 
 export interface TicketUpdate {
   id: string;
-  date: string;
-  author: string;
   comment: string;
-  statusChange?: TicketStatus;
+  changeDate: string; // Já normalizaremos para string legível
+  newStatus: 'OPEN' | 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELED' | 'PAYMENT_PENDING';
+  oldStatus: 'OPEN' | 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELED' | 'PAYMENT_PENDING';
+  updateBy: string;
 }
 
 export interface Ticket {
   id: string;
   title: string;
-  priority: Priority;
-  category: Category;
-  location: string;
-  equipment: string;
   description: string;
-  clientId: string;
-  clientName: string;
-  technical_id?: string;
-
-  technical?: {
-    id: string;
-    name: string;
-    email?: string;
-  } | null;
-
-  technicalId?: string; 
-  technicalName?: string;
-  assignedTechnicianId?: string;
-
+  category: string;
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  status: 'OPEN' | 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELED' | 'PAYMENT_PENDING';
   baseValue: number;
   finalValue: number;
-  status: TicketStatus;
+  paymentConfirmed: boolean;
   creationDate: string;
-  slaEstimate: string; // e.g. "4h", "24h", "3 dias"
-  files: string[];     // Mock file names
+  clientName: string;
+  technicalName: string | null;
+  technicalId: string | null; // UUID vindo do Java
   updates: TicketUpdate[];
+  
+  // Mantidos para compatibilidade com o restante do App
+  location?: string;
+  equipment?: string;
+  clientId?: string;
+  slaEstimate?: string;
+  files?: any[];
 }
 
 export interface BackupHistory {
