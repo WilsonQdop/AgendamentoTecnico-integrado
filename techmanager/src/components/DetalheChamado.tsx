@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Ticket, Technician, TicketStatus, Priority, TicketUpdate } from '../types';
-import { X, Clock, Loader2, Plus, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Clock, Loader2, Plus, Lock, ChevronLeft, ChevronRight, CheckCircle2, XCircle, CreditCard, Play } from 'lucide-react';
 import { api } from '../services/api';
 
 interface DetalheChamadoProps {
@@ -11,13 +11,9 @@ interface DetalheChamadoProps {
   currentUserEmail?: string;
   loggedTechId?: string;
   loggedTechName?: string;
+  /** ID do cliente dono do chamado — para mostrar o botão de pagamento */
+  loggedClientId?: string;
 }
-
-const STATUS_OPTIONS: { value: TicketStatus; label: string }[] = [
-  { value: 'IN_PROGRESS', label: '🔵 Em Andamento' },
-  { value: 'COMPLETED',   label: '🟢 Concluído' },
-  { value: 'CANCELED',    label: '⚪ Cancelado' },
-];
 
 const STATUS_LABEL: Record<TicketStatus, string> = {
   OPEN:            'Aberto',
@@ -25,7 +21,7 @@ const STATUS_LABEL: Record<TicketStatus, string> = {
   IN_PROGRESS:     'Em Andamento',
   COMPLETED:       'Concluído',
   CANCELED:        'Cancelado',
-  PAYMENT_PENDING: 'Pagamento Pendente',
+  PAYMENT_PENDING: 'Aguardando Pagamento',
 };
 
 const PRIORITY_LABEL: Record<Priority, string> = {
@@ -42,56 +38,65 @@ export function DetalheChamado({
   currentUserEmail,
   loggedTechId,
   loggedTechName,
+  loggedClientId,
 }: DetalheChamadoProps) {
 
   const ticketTechId   = ticket.technicalId || '';
   const ticketTechName = ticket.technicalName || '';
 
-  // 🔥 PAGINAÇÃO DO HISTÓRICO
+  // ─── Paginação do histórico ───────────────────────────────────────────────
   const ITEMS_PER_PAGE = 4;
   const [currentHistoryPage, setCurrentHistoryPage] = useState(1);
 
+  // ─── Permissões ───────────────────────────────────────────────────────────
   const isAssignedToMe = !!loggedTechId && !!ticketTechId && loggedTechId === ticketTechId;
   const canEdit        = isAssignedToMe;
-  const isPending      = ticket.status === 'OPEN' || ticket.status === 'ASSIGNED';
 
+  /** Dono do chamado (cliente) pode pagar */
+  const isTicketOwner  = !!loggedClientId && loggedClientId === (ticket.clientId || '');
+
+  const isPending      = ticket.status === 'OPEN' || ticket.status === 'ASSIGNED';
+  const isInProgress   = ticket.status === 'IN_PROGRESS';
+  const isPaymentPending = ticket.status === 'PAYMENT_PENDING';
+  const isClosed       = ticket.status === 'COMPLETED' || ticket.status === 'CANCELED';
+
+  // ─── Estado local ─────────────────────────────────────────────────────────
   const [status, setStatus]               = useState<TicketStatus>(ticket.status);
   const [updateMessage, setUpdateMessage] = useState('');
   const [isUpdating, setIsUpdating]       = useState(false);
-  
-  // 🔥 Estado local isolado para garantir que a timeline mude na hora em que o backend responder
   const [localUpdates, setLocalUpdates]   = useState<TicketUpdate[]>(ticket.updates || []);
 
-  // Sincroniza o estado local caso o ticket mude via props externamente
+  // Estado de pagamento
+  const [paymentAmount, setPaymentAmount] = useState<string>('');
+  const [isPaying, setIsPaying]           = useState(false);
+
+  // Sincroniza estado local quando o ticket mudar externamente
   useEffect(() => {
     if (ticket.updates) {
       setLocalUpdates(ticket.updates);
-      setCurrentHistoryPage(1); // Reset à página 1 quando houver novos updates
+      setCurrentHistoryPage(1);
     }
     refetchTicketDetails();
   }, [ticket.updates]);
 
-  // ─── Função auxiliar: Recarrega os dados do ticket do backend ─────────────
+  // ─── Recarregar dados do backend ─────────────────────────────────────────
   const refetchTicketDetails = async () => {
     try {
       const response = await api.tickets.getDetails(ticket.id);
       const updatedTicketData = response.data || response;
-      
-      // Captura a lista mapeada no seu Record do Spring Boot (campo 'updates')
+
       const rawHistories = updatedTicketData.updates || [];
 
-      // 🔄 NORMALIZAÇÃO: Converte o DTO do Java para a tipagem do Frontend
       const normalizedUpdates: TicketUpdate[] = rawHistories.map((up: any) => ({
         id: up.id,
         comment: up.comment || '',
-        changeDate: up.changeDate 
-          ? new Date(up.changeDate).toLocaleString('pt-BR') 
+        changeDate: up.changeDate
+          ? new Date(up.changeDate).toLocaleString('pt-BR')
           : new Date().toLocaleString('pt-BR'),
         newStatus: up.newStatus,
-        updateBy: up.updateBy || 'Sistema'
+        updateBy: up.updateBy || 'Sistema',
       }));
 
-      // Transforma a resposta do backend para o tipo Ticket local
       const transformedTicket: Ticket = {
         id: updatedTicketData.id,
         title: updatedTicketData.title,
@@ -102,31 +107,24 @@ export function DetalheChamado({
         baseValue: updatedTicketData.baseValue || 100,
         finalValue: updatedTicketData.finalValue || 100,
         paymentConfirmed: updatedTicketData.paymentConfirmed || false,
-        creationDate: updatedTicketData.creationDate 
-          ? new Date(updatedTicketData.creationDate).toLocaleString('pt-BR') 
+        creationDate: updatedTicketData.creationDate
+          ? new Date(updatedTicketData.creationDate).toLocaleString('pt-BR')
           : new Date().toLocaleString('pt-BR'),
         clientName: updatedTicketData.clientName || 'Cliente',
         technicalId: updatedTicketData.technicalId || '',
         technicalName: updatedTicketData.technicalName || '',
         updates: normalizedUpdates,
-
-        // Campos complementares para o layout não quebrar
         location: ticket.location || 'N/A',
         equipment: ticket.equipment || 'N/A',
-        clientId: updatedTicketData.clientId || '',
+        clientId: updatedTicketData.customerId || updatedTicketData.clientId || '',
         slaEstimate: ticket.slaEstimate || 'N/A',
         files: updatedTicketData.files || [],
       };
 
-      console.log('✅ Ticket atualizado do backend com histórico mapeado:', transformedTicket);
-      
-      // Força a renderização imediata do histórico local na janela aberta
       setLocalUpdates(normalizedUpdates);
-      
-      // Envia a atualização para o estado macro no App.tsx
       onUpdateTicket(transformedTicket);
       setStatus(transformedTicket.status);
-      
+
       return transformedTicket;
     } catch (err) {
       console.error('❌ Erro ao recarregar dados do ticket:', err);
@@ -134,13 +132,15 @@ export function DetalheChamado({
     }
   };
 
+  // ─── Handlers de ação ────────────────────────────────────────────────────
+
+  /** Inicia o chamado (OPEN/ASSIGNED → IN_PROGRESS) */
   const handleStart = async () => {
     if (!canEdit) return;
     setIsUpdating(true);
     try {
       await api.tickets.start(ticket.id);
       await refetchTicketDetails();
-      alert('Chamado iniciado! O contador de horas começou.');
     } catch (err: any) {
       alert(`Erro ao iniciar chamado: ${err.message || 'Erro desconhecido'}`);
     } finally {
@@ -148,34 +148,82 @@ export function DetalheChamado({
     }
   };
 
+  /** Registra comentário no histórico; automaticamente mantém/define IN_PROGRESS */
   const handlePostUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!updateMessage.trim() || !canEdit) return;
     setIsUpdating(true);
     try {
-      // 1. Se o status na tela foi modificado para COMPLETED e o chamado não estava concluído
-      if (status === 'COMPLETED' && ticket.status !== 'COMPLETED') {
-        await api.tickets.finish(ticket.id);
-      } else if (ticket.status !== 'IN_PROGRESS' && ticket.status !== 'COMPLETED') {
-        // Se ainda for OPEN ou ASSIGNED, inicia por segurança antes de comentar
+      // Garante que o chamado está IN_PROGRESS antes de comentar
+      if (ticket.status !== 'IN_PROGRESS') {
         await api.tickets.start(ticket.id);
       }
 
-      // 2. Registra o comentário no histórico através da API
       await api.tickets.changeHistory(ticket.id, { comment: updateMessage });
-
-      // 3. Recarrega os dados completos sincronizados com as tabelas do banco
-      const updatedTicket = await refetchTicketDetails();
-
-      // 4. Limpa o formulário de texto
+      await refetchTicketDetails();
       setUpdateMessage('');
-      console.log('✅ Atualização salva e histórico recarregado:', updatedTicket);
     } catch (err: any) {
       alert(`Erro ao atualizar chamado: ${err.message || 'Erro desconhecido'}`);
     } finally {
       setIsUpdating(false);
     }
   };
+
+  /** Conclui chamado → PAYMENT_PENDING */
+  const handleFinish = async () => {
+    if (!canEdit) return;
+    const confirmed = window.confirm('Deseja concluir este chamado? O status mudará para Aguardando Pagamento.');
+    if (!confirmed) return;
+    setIsUpdating(true);
+    try {
+      await api.tickets.finish(ticket.id);
+      await refetchTicketDetails();
+    } catch (err: any) {
+      alert(`Erro ao concluir chamado: ${err.message || 'Erro desconhecido'}`);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  /** Cancela chamado → CANCELED */
+  const handleCancel = async () => {
+    if (!canEdit) return;
+    const confirmed = window.confirm('Tem certeza que deseja cancelar este chamado? Esta ação não pode ser desfeita.');
+    if (!confirmed) return;
+    setIsUpdating(true);
+    try {
+      await api.tickets.cancel(ticket.id); // endpoint: PUT /ticket/cancel/{id}
+      await refetchTicketDetails();
+    } catch (err: any) {
+      alert(`Erro ao cancelar chamado: ${err.message || 'Erro desconhecido'}`);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  /** Confirma pagamento (apenas o dono do chamado) */
+  const handlePayment = async () => {
+    const amount = parseFloat(paymentAmount.replace(',', '.'));
+    if (isNaN(amount) || amount <= 0) {
+      alert('Informe um valor de pagamento válido.');
+      return;
+    }
+    const confirmed = window.confirm(`Confirmar pagamento de R$ ${amount.toFixed(2)}?`);
+    if (!confirmed) return;
+    setIsPaying(true);
+    try {
+      await api.tickets.pay(ticket.id, { value: amount });
+      await refetchTicketDetails();
+      setPaymentAmount('');
+      alert('Pagamento confirmado com sucesso!');
+    } catch (err: any) {
+      alert(`Erro ao confirmar pagamento: ${err.message || 'Erro desconhecido'}`);
+    } finally {
+      setIsPaying(false);
+    }
+  };
+
+  // ─── Helpers visuais ─────────────────────────────────────────────────────
 
   const getPriorityBadgeColor = (p: Priority) => {
     switch (p) {
@@ -187,33 +235,26 @@ export function DetalheChamado({
   };
 
   const lockReason = (() => {
+    if (isClosed) return null; // Chamados fechados não precisam de aviso de lock
     if (!ticketTechId) return 'Este chamado ainda não foi assumido. Vá à lista e clique em "Assumir".';
     if (!isAssignedToMe) return `Somente ${ticketTechName || 'o técnico atribuído'} pode gerenciar este chamado.`;
     return null;
   })();
 
-  // 🔥 LÓGICA DE PAGINAÇÃO
+  // ─── Paginação ───────────────────────────────────────────────────────────
   const totalHistoryPages = Math.ceil(localUpdates.length / ITEMS_PER_PAGE);
-  const startIndex = (currentHistoryPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedUpdates = localUpdates.slice(startIndex, endIndex);
+  const reversedUpdates   = [...localUpdates].reverse();
+  const startIndex        = (currentHistoryPage - 1) * ITEMS_PER_PAGE;
+  const paginatedReversedUpdates = reversedUpdates.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // Para facilitar, vamos reverter a ordem para mostrar as mais recentes primeiro
-  const reversedUpdates = [...localUpdates].reverse();
-  const paginatedReversedUpdates = reversedUpdates.slice(startIndex, endIndex);
+  const handlePreviousPage = () => setCurrentHistoryPage(prev => Math.max(1, prev - 1));
+  const handleNextPage     = () => setCurrentHistoryPage(prev => Math.min(totalHistoryPages, prev + 1));
 
-  const handlePreviousPage = () => {
-    setCurrentHistoryPage(prev => Math.max(1, prev - 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentHistoryPage(prev => Math.min(totalHistoryPages, prev + 1));
-  };
-
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-xl overflow-hidden max-w-4xl mx-auto">
 
-      {/* Header */}
+      {/* ── Header ── */}
       <div className="bg-slate-900 p-6 text-white flex justify-between items-center">
         <div>
           <span className="text-indigo-400 font-mono text-xs font-bold uppercase tracking-wider">{ticket.id}</span>
@@ -232,7 +273,7 @@ export function DetalheChamado({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-100 dark:divide-zinc-800">
 
-        {/* Esquerdo: Descrição + Histórico */}
+        {/* ── Esquerdo: Descrição + Histórico ── */}
         <div className="lg:col-span-7 p-6 space-y-6">
 
           <div className="grid grid-cols-2 gap-4 bg-slate-50 dark:bg-zinc-800/40 p-4 rounded-xl border border-slate-100 dark:border-zinc-800/80 text-xs">
@@ -253,17 +294,16 @@ export function DetalheChamado({
             </p>
           </div>
 
-          {/* Timeline com PAGINAÇÃO 🔥 */}
+          {/* ── Timeline com paginação ── */}
           <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-zinc-800/80">
             <h3 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-widest flex items-center gap-1">
               <Clock className="w-4 h-4 text-indigo-400" /> Histórico de Atualizações
             </h3>
-            
+
             {(!localUpdates || localUpdates.length === 0) ? (
               <p className="text-xs text-slate-400 dark:text-zinc-500 italic pl-3">Nenhuma ação registrada neste chamado até o momento.</p>
             ) : (
               <>
-                {/* Timeline */}
                 <div className="space-y-3 max-h-[260px] overflow-y-auto pr-2 relative border-l-2 border-slate-100 dark:border-zinc-800 pl-4">
                   {paginatedReversedUpdates.map((up) => (
                     <div key={up.id} className="text-xs space-y-1 relative">
@@ -279,32 +319,19 @@ export function DetalheChamado({
                   ))}
                 </div>
 
-                {/* 🔥 CONTROLES DE PAGINAÇÃO */}
                 {totalHistoryPages > 1 && (
                   <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-zinc-800">
-                    <button
-                      onClick={handlePreviousPage}
-                      disabled={currentHistoryPage === 1}
-                      className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-all"
-                    >
-                      <ChevronLeft className="w-3.5 h-3.5" />
-                      Anterior
+                    <button onClick={handlePreviousPage} disabled={currentHistoryPage === 1}
+                      className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-all">
+                      <ChevronLeft className="w-3.5 h-3.5" /> Anterior
                     </button>
-
                     <span className="text-xs font-semibold text-slate-500 dark:text-zinc-400">
-                      Página {currentHistoryPage} de {totalHistoryPages} 
-                      <span className="ml-1 text-slate-400 dark:text-zinc-500">
-                        ({localUpdates.length} registros)
-                      </span>
+                      Página {currentHistoryPage} de {totalHistoryPages}
+                      <span className="ml-1 text-slate-400 dark:text-zinc-500">({localUpdates.length} registros)</span>
                     </span>
-
-                    <button
-                      onClick={handleNextPage}
-                      disabled={currentHistoryPage === totalHistoryPages}
-                      className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-all"
-                    >
-                      Próxima
-                      <ChevronRight className="w-3.5 h-3.5" />
+                    <button onClick={handleNextPage} disabled={currentHistoryPage === totalHistoryPages}
+                      className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-all">
+                      Próxima <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 )}
@@ -313,12 +340,19 @@ export function DetalheChamado({
           </div>
         </div>
 
-        {/* Direito: Controles */}
+        {/* ── Direito: Controles ── */}
         <div className="lg:col-span-5 p-6 space-y-6 bg-slate-50/40 dark:bg-zinc-900 flex flex-col justify-between">
           <div className="space-y-5">
             <div className="space-y-3">
               <h3 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-widest">Controles do Chamado</h3>
 
+              {/* Badge de status atual */}
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-semibold uppercase text-slate-400 dark:text-zinc-500 tracking-wider">Status atual:</span>
+                <StatusBadge status={status} />
+              </div>
+
+              {/* Aviso de bloqueio */}
               {lockReason && (
                 <div className="flex items-start gap-2 p-2.5 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-xl text-[11px] text-red-600 dark:text-red-400 font-medium">
                   <Lock className="w-3.5 h-3.5 mt-0.5 shrink-0" />
@@ -326,26 +360,81 @@ export function DetalheChamado({
                 </div>
               )}
 
+              {/* ── BOTÃO: Iniciar chamado (OPEN/ASSIGNED) ── */}
               {isPending && canEdit && (
                 <button onClick={handleStart} disabled={isUpdating}
                   className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2">
-                  {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : '▶'}
+                  {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
                   Iniciar Chamado
                 </button>
               )}
 
-              {!isPending && (
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-semibold text-slate-500 uppercase dark:text-zinc-500">Alterar Status</label>
-                  <select value={status} disabled={!canEdit} onChange={e => setStatus(e.target.value as TicketStatus)}
-                    className="w-full text-xs px-3 py-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl font-semibold text-slate-800 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed">
-                    {STATUS_OPTIONS.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
+              {/* ── BOTÕES: Concluir / Cancelar (IN_PROGRESS) ── */}
+              {isInProgress && canEdit && (
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  {/* Concluir → PAYMENT_PENDING */}
+                  <button onClick={handleFinish} disabled={isUpdating}
+                    className="py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 col-span-1">
+                    {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
+                    Concluir
+                  </button>
+
+                  {/* Cancelar → CANCELED */}
+                  <button onClick={handleCancel} disabled={isUpdating}
+                    className="py-2.5 bg-red-600 hover:bg-red-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 col-span-1">
+                    {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <XCircle className="w-3.5 h-3.5" />}
+                    Cancelar
+                  </button>
                 </div>
               )}
 
+              {/* ── PAINEL DE PAGAMENTO (PAYMENT_PENDING, apenas o dono do chamado) ── */}
+              {isPaymentPending && isTicketOwner && (
+                <div className="space-y-3 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                    <h4 className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Pagamento Pendente</h4>
+                  </div>
+
+                  <div className="text-sm font-bold text-slate-800 dark:text-white">
+                    Valor total:&nbsp;
+                    <span className="text-emerald-600 dark:text-emerald-400 font-mono">
+                      R$ {ticket.finalValue?.toFixed(2) ?? '—'}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
+                      Valor a pagar (R$)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder={`Ex: ${ticket.finalValue?.toFixed(2) ?? '100,00'}`}
+                      value={paymentAmount}
+                      onChange={e => setPaymentAmount(e.target.value)}
+                      className="w-full text-xs px-3 py-2 bg-white dark:bg-zinc-800 border border-amber-300 dark:border-amber-700 rounded-lg text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                    />
+                  </div>
+
+                  <button onClick={handlePayment} disabled={isPaying || !paymentAmount}
+                    className="w-full py-2.5 bg-amber-400 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-slate-900 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2">
+                    {isPaying ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
+                    Confirmar Pagamento
+                  </button>
+                </div>
+              )}
+
+              {/* Aviso PAYMENT_PENDING para técnico (não tem o painel de pagamento) */}
+              {isPaymentPending && !isTicketOwner && (
+                <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl text-[11px] text-amber-700 dark:text-amber-400 font-medium flex items-center gap-2">
+                  <CreditCard className="w-3.5 h-3.5 shrink-0" />
+                  Aguardando confirmação de pagamento pelo cliente.
+                </div>
+              )}
+
+              {/* Técnico responsável */}
               <div className="space-y-1.5">
                 <label className="text-[11px] font-semibold text-slate-500 uppercase dark:text-zinc-500">Técnico Responsável</label>
                 <div className="w-full text-xs px-3 py-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-800 dark:text-white flex items-center gap-2">
@@ -363,34 +452,107 @@ export function DetalheChamado({
               </div>
             </div>
 
-            <div className="bg-white dark:bg-zinc-800 p-4 rounded-xl border border-slate-100 dark:border-zinc-700/80 shadow-sm space-y-2">
+            {/* Cálculo de valor */}
+            <div className="bg-white dark:bg-zinc-800 p-4 rounded-xl border border-slate-100 dark:border-zinc-700/80 shadow-sm space-y-3">
               <h4 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">Cálculo do Valor Técnico</h4>
+
+              {/* Fórmula */}
+              <div className="bg-slate-50 dark:bg-zinc-900/60 rounded-lg px-3 py-2 text-[10px] font-mono text-slate-500 dark:text-zinc-500 text-center tracking-wide">
+                valor = base × horas × peso_categoria × peso_prioridade
+              </div>
+
+              {/* Valores do chamado */}
               <ul className="space-y-1.5 text-[11px] text-slate-600 dark:text-zinc-400 leading-relaxed">
                 <li>• <strong>Valor Base:</strong> R$ {ticket.baseValue?.toFixed(2) ?? '100,00'}/h</li>
-                <li>• <strong>Contador:</strong> horas acumuladas a partir do início (<code>IN_PROGRESS</code>)</li>
-                <li>• <strong>Valor Estimado:</strong> <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">R$ {ticket.finalValue?.toFixed(2) ?? '—'}</span></li>
+                <li>• <strong>Horas:</strong> contadas a partir do início — mínimo cobrado: 1h</li>
+                <li>• <strong>Valor Final:</strong> <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">R$ {ticket.finalValue?.toFixed(2) ?? '—'}</span></li>
               </ul>
+
+              {/* Pesos */}
+              <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100 dark:border-zinc-700">
+                <div className="space-y-1">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 block">Peso — Categoria</span>
+                  <ul className="space-y-0.5 text-[10px] text-slate-600 dark:text-zinc-400">
+                    <li className="flex justify-between"><span>Hardware</span><span className="font-mono font-bold text-slate-700 dark:text-zinc-300">× 1.0</span></li>
+                    <li className="flex justify-between"><span>Software</span><span className="font-mono font-bold text-amber-600 dark:text-amber-400">× 1.3</span></li>
+                    <li className="flex justify-between"><span>Network</span><span className="font-mono font-bold text-red-600 dark:text-red-400">× 1.5</span></li>
+                  </ul>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 block">Peso — Prioridade</span>
+                  <ul className="space-y-0.5 text-[10px] text-slate-600 dark:text-zinc-400">
+                    <li className="flex justify-between"><span>Baixa</span><span className="font-mono font-bold text-slate-700 dark:text-zinc-300">× 1.0</span></li>
+                    <li className="flex justify-between"><span>Média</span><span className="font-mono font-bold text-amber-600 dark:text-amber-400">× 1.2</span></li>
+                    <li className="flex justify-between"><span>Alta</span><span className="font-mono font-bold text-red-600 dark:text-red-400">× 1.5</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Exemplo */}
+              <p className="text-[10px] text-slate-400 dark:text-zinc-500 leading-relaxed pt-1 border-t border-slate-100 dark:border-zinc-700">
+                Ex.: 2h · Network · Alta = R$ 100 × 2 × 1.5 × 1.5 = <strong className="text-emerald-600 dark:text-emerald-400">R$ 450,00</strong>
+              </p>
             </div>
           </div>
 
-          {/* Formulário com gatilho sincronizado de recarregamento */}
-          <form onSubmit={handlePostUpdate} className="pt-4 border-t border-slate-100 dark:border-zinc-800 space-y-3">
-            <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-700 dark:text-zinc-400 uppercase tracking-wide block">Registrar Ação *</label>
-              <textarea rows={3} required disabled={!canEdit}
-                placeholder={canEdit ? 'Descreva o procedimento realizado para incluir no histórico...' : 'Acesso bloqueado — você não é o técnico responsável.'}
-                value={updateMessage} onChange={e => setUpdateMessage(e.target.value)}
-                className="w-full text-xs p-2.5 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg text-slate-800 dark:text-white resize-none disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
+          {/* ── Formulário de comentário (liberado após iniciar) ── */}
+          {(isInProgress || isPaymentPending) && canEdit && (
+            <form onSubmit={handlePostUpdate} className="pt-4 border-t border-slate-100 dark:border-zinc-800 space-y-3">
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-slate-700 dark:text-zinc-400 uppercase tracking-wide block">
+                  Registrar Ação *
+                </label>
+                <textarea rows={3} required disabled={!canEdit}
+                  placeholder="Descreva o procedimento realizado para incluir no histórico..."
+                  value={updateMessage} onChange={e => setUpdateMessage(e.target.value)}
+                  className="w-full text-xs p-2.5 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg text-slate-800 dark:text-white resize-none disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <button type="submit" disabled={isUpdating || !updateMessage.trim() || !canEdit}
+                className="w-full py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed dark:bg-zinc-700 dark:hover:bg-zinc-600 text-white rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5">
+                {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
+                Gravar Ação no Histórico
+              </button>
+            </form>
+          )}
+
+          {/* Aviso: chamado ainda não iniciado */}
+          {isPending && canEdit && (
+            <p className="text-[11px] text-slate-400 dark:text-zinc-500 italic text-center pt-2 border-t border-slate-100 dark:border-zinc-800">
+              Inicie o chamado para liberar o registro de ações.
+            </p>
+          )}
+
+          {/* Chamado encerrado */}
+          {isClosed && (
+            <div className="pt-4 border-t border-slate-100 dark:border-zinc-800">
+              <p className="text-[11px] text-slate-400 dark:text-zinc-500 italic text-center">
+                Este chamado está encerrado e não aceita mais atualizações.
+              </p>
             </div>
-            <button type="submit" disabled={isUpdating || !updateMessage.trim() || !canEdit}
-              className="w-full py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed dark:bg-zinc-700 dark:hover:bg-zinc-600 text-white rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5">
-              {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
-              Gravar Ação no Histórico
-            </button>
-          </form>
+          )}
         </div>
       </div>
     </div>
+  );
+}
+
+// ─── Sub-componente: Badge de status ─────────────────────────────────────────
+function StatusBadge({ status }: { status: TicketStatus }) {
+  const config: Record<TicketStatus, { label: string; cls: string }> = {
+    OPEN:            { label: 'Aberto',               cls: 'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-300' },
+    ASSIGNED:        { label: 'Atribuído',             cls: 'bg-violet-100 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400' },
+    IN_PROGRESS:     { label: 'Em Andamento',          cls: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400' },
+    COMPLETED:       { label: 'Concluído',             cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400' },
+    CANCELED:        { label: 'Cancelado',             cls: 'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400' },
+    PAYMENT_PENDING: { label: 'Aguardando Pagamento',  cls: 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400' },
+  };
+
+  const { label, cls } = config[status] ?? { label: status, cls: 'bg-slate-100 text-slate-600' };
+
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${cls}`}>
+      {label}
+    </span>
   );
 }

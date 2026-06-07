@@ -14,12 +14,16 @@ async function request(endpoint: string, options: RequestInit = {}) {
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    const errorText = await response.text();
+    let errorData: any = {};
+    try { errorData = JSON.parse(errorText); } catch { errorData = { message: errorText }; }
     throw { status: response.status, ...errorData };
   }
 
-  if (response.status === 204) return null;
-  return response.json();
+  // Lê como texto primeiro — evita explodir em respostas Void (200 sem body)
+  const text = await response.text();
+  if (!text) return null;
+  try { return JSON.parse(text); } catch { return null; }
 }
 
 export function getUserRole(): 'ADMIN' | 'CUSTOMER' | 'TECHNICAL' | null {
@@ -33,7 +37,6 @@ export function getUserRole(): 'ADMIN' | 'CUSTOMER' | 'TECHNICAL' | null {
     return null;
   }
 }
-
 
 export const api = {
 
@@ -49,7 +52,6 @@ export const api = {
     createTechnical: (data: any) => request('/admin/technical/create', { method: 'POST', body: JSON.stringify(data) }),
     deleteTechnician: (id: string) => request(`/admin/technical/delete/${id}`, { method: 'DELETE' }),
     updateTechnician: (id: string, data: any) => request(`/admin/technical/update/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-
     getAuditLogs: (page = 0, size = 6) => request(`/api/admin/audit-logs?page=${page}&size=${size}`),
   },
   tickets: {
@@ -58,24 +60,21 @@ export const api = {
     getDetails: (id: string) => request(`/ticket/ticketDetails/${id}`),
     create: (data: any) => request('/ticket/create', { method: 'POST', body: JSON.stringify(data) }),
     start: (id: string) => request(`/ticket/start/${id}`, { method: 'PUT' }),
+    cancel: (id: string) => request(`/ticket/cancel/${id}`, { method: 'PUT' }),
     finish: (id: string) => request(`/ticket/finish/${id}`, { method: 'PUT' }),
-    assign: (id: string) => request(`/technical/assign/${id}`, { method: 'PUT' }), // ← adicionar
+    assign: (id: string) => request(`/technical/assign/${id}`, { method: 'PUT' }),
     pay: (id: string, data: any) => request(`/ticket/payment/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-    changeHistory: (id: string, data: { comment: string }) => 
-  request(`/history/change/${id}`, { 
-    method: 'PUT', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data) 
-  }),
+    changeHistory: (id: string, data: { comment: string }) =>
+      request(`/history/change/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }),
   },
   backups: {
     trigger: () => request('/api/backups/trigger', { method: 'POST' }),
     schedule: (data: any) => request('/api/backups/schedule', { method: 'POST', body: JSON.stringify(data) }),
     cancelSchedule: () => request('/api/backups/schedule/cancel', { method: 'DELETE' }),
     restore: (fileName: string) => request(`/api/backups/restore?arquivo=${fileName}`, { method: 'POST' }),
-  }
-
-  
+  },
 };

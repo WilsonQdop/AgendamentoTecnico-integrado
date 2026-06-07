@@ -104,6 +104,21 @@ public class TicketService {
         );
     }
 
+    public void cancel(UUID ticketId) {
+        Ticket ticket = this.findById(ticketId);
+
+        ticket.setStartedAt(LocalDateTime.now());
+        ticket.setStatus(StatusEnum.CANCELED);
+
+        ticketRepository.save(ticket);
+
+        auditService.log(
+                AuditAction.TICKET_CANCELED,
+                ticket.getTechnical() != null ? ticket.getTechnical().getName() : "Sistema",
+                "Atendimento foi cancelado para o chamado '" + ticket.getTitle() + "'"
+        );
+    }
+
     // EVENTO 4: Finalização do chamado
     public void finishTicket(UUID ticketId) {
         Ticket ticket = this.findById(ticketId);
@@ -207,6 +222,7 @@ public class TicketService {
                 ticket.isPaymentConfirmed(),
                 ticket.getCreatedAt(),
                 ticket.getCustomer() != null ? ticket.getCustomer().getName() : "N/A",
+                ticket.getCustomer() != null ? ticket.getCustomer().getId() : null,
                 ticket.getTechnical() != null ? ticket.getTechnical().getName() : null,
                 ticket.getTechnical() != null ? ticket.getTechnical().getId() : null,
                 historyDTOs // 🔥 O novo argumento correspondente à lista 'updates' no record

@@ -20,7 +20,8 @@ public record TicketDetailsResponseDTO(
         BigDecimal finalValue,      // Alterado para bater com o JSON do front
         boolean paymentConfirmed,
         LocalDateTime creationDate, // Alterado para bater com o JSON do front
-        String clientName,          // Alterado para bater com o JSON do front
+        String clientName,
+        UUID customerId,  // Alterado para bater com o JSON do front
         String technicalName,
         UUID technicalId,
         List<TicketHistoryResponseDTO> updates // A lista de históricos aqui dentro!

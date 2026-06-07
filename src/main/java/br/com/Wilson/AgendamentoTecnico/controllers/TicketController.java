@@ -48,6 +48,14 @@ public class TicketController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PreAuthorize("hasRole('TECHNICAL')")
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelTicket(@PathVariable UUID id) {
+        this.ticketService.cancel(id);
+        return ResponseEntity.ok().build();
+    }
+
     @PreAuthorize("hasRole('CUSTOMER')")
     @PutMapping("/payment/{ticketId}")
     public ResponseEntity<Void> customerPaymentTicket(@PathVariable UUID ticketId, @RequestBody @Valid PaymentRequestDTO request) {

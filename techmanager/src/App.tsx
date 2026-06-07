@@ -151,8 +151,8 @@ export default function App() {
           technicalId: t.technicalId || '', 
           assignedTechnicianId: t.technicalId || '', 
           technicalName: t.technicalName || 'Nenhum técnico designado', 
-          baseValue: t.baseHourlyRate || 100, 
-          finalValue: t.value || 100,         
+          baseValue:  t.baseHourlyRate || 100,
+          finalValue: t.value || 100,    
           status: t.status,      
           creationDate: t.createdAt ? new Date(t.createdAt).toLocaleString('pt-BR') : new Date().toLocaleString('pt-BR'),
           slaEstimate: 'N/A',
@@ -381,13 +381,13 @@ const fetchTicketDetails = async (ticketId: string): Promise<Ticket | null> => {
       priority:             data.priority,
       category:             data.category,
       status:               data.status,
-      baseValue:            data.baseHourlyRate        ?? 100,
-      finalValue:           data.value                 ?? 100,
+      baseValue:  data.baseValue ?? 100,
+      finalValue: data.finalValue ?? 100,
       technicalId:          data.technicalId           || '',
       assignedTechnicianId: data.technicalId           || '',
       technicalName:        data.technicalName         || '',
       clientName:           data.customerName          || 'Cliente',
-      clientId:             '',
+      clientId:             data.customerId || '',
       location:             tickets.find(t => t.id === ticketId)?.location || 'N/A',
       equipment:            tickets.find(t => t.id === ticketId)?.equipment || 'N/A',
       creationDate:         data.createdAt
@@ -405,6 +405,10 @@ const fetchTicketDetails = async (ticketId: string): Promise<Ticket | null> => {
 
 // Resolução do tech logado (calculada uma vez por render)
 const loggedTech = getLoggedTechIdAndName();
+
+const loggedClientId = userRole === 'CUSTOMER'
+  ? (tickets.find(t => t.clientId)?.clientId || '')
+  : '';
 
   const handleTriggerBackup = async (type: 'Incremental' | 'Geral') => {
     try {
@@ -614,6 +618,9 @@ const loggedTech = getLoggedTechIdAndName();
                     onFetchTicketDetails={fetchTicketDetails}
                     loggedTechId={loggedTech.id}
                     loggedTechName={loggedTech.name}
+                
+                    loggedClientId={loggedClientId}
+
                   />
                 );
 

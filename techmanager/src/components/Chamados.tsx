@@ -18,6 +18,8 @@ interface TicketsProps {
   onFetchTicketDetails: (ticketId: string) => Promise<Ticket | null>;
   // UUID e nome do técnico logado, resolvidos pelo App.tsx via JWT + getDetails
   loggedTechId?: string;
+  loggedClientId?: string;
+
   loggedTechName?: string;
 }
 
@@ -42,7 +44,7 @@ export function Chamados({
   activeTicketId, setActiveTicketId,
   userRole, onAssignTicket,
   currentUserEmail, onFetchTicketDetails,
-  loggedTechId, loggedTechName,
+  loggedTechId, loggedTechName, loggedClientId,
 }: TicketsProps) {
 
   const [searchTerm, setSearchTerm]             = useState('');
@@ -142,6 +144,8 @@ export function Chamados({
             onUpdateTicket={onUpdateTicket}
             onClose={() => { setActiveTicketId(null); setDetailedTicket(null); }}
             currentUserEmail={currentUserEmail}
+            loggedClientId={loggedClientId}
+
             // Se o App.tsx não resolveu o loggedTechId (lista vazia),
             // usa o technicalId do próprio ticket carregado via getDetails.
             // Isso é seguro: o backend só retorna o ticket para quem tem acesso,
