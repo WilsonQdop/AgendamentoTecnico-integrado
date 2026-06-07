@@ -1,320 +1,438 @@
-import React, { useState } from 'react';
-import { BackupHistory, BackupConfig, BackupFrequency } from '../types';
-import { Play, Calendar, CheckCircle2, AlertOctagon, HelpCircle, HardDrive, ShieldCheck, Download, Trash, RefreshCcw, Save, ServerCrash } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BackupFrequency, BackupHistory, BackupScheduleState } from '../types';
+import {
+  Play, Save, RefreshCcw, HardDrive, ShieldCheck,
+  Clock, CalendarClock, XCircle, CheckCircle2, AlertTriangle,
+  ServerCrash, Loader2, Info, FileCode2
+} from 'lucide-react';
 import { api } from '../services/api';
 
-interface BackupProps {
-  backupHistory: BackupHistory[];
-  backupConfig: BackupConfig;
-  onUpdateConfig: (config: BackupConfig) => void;
-  onTriggerBackup: (type: 'Incremental' | 'Geral') => void;
+const FREQUENCY_LABELS: Record<BackupFrequency, string> = {
+  ONCE:    'Uma única vez',
+  DAILY:   'Diário',
+  WEEKLY:  'Semanal',
+  MONTHLY: 'Mensal',
+};
+
+const SCHEDULE_KEY = 'tm_backup_schedule';
+
+function loadSchedule(): BackupScheduleState {
+  try { return JSON.parse(localStorage.getItem(SCHEDULE_KEY) || 'null') || { active: false, frequency: null, nextExecution: null }; }
+  catch { return { active: false, frequency: null, nextExecution: null }; }
 }
 
-export function Backup({ backupHistory, backupConfig, onUpdateConfig, onTriggerBackup }: BackupProps) {
+function saveSchedule(s: BackupScheduleState) {
+  localStorage.setItem(SCHEDULE_KEY, JSON.stringify(s));
+}
+
+function formatDateTime(iso: string | null): string {
+  if (!iso) return '—';
+  try { return new Date(iso).toLocaleString('pt-BR'); }
+  catch { return iso; }
+}
+
+// ─── Extrai a data legível do nome gerado pelo Java (ex: backup_db_20260607_143000.sql)
+function parseDateFromFileName(fileName: string): string {
+  const match = fileName.match(/_(\d{8}_\d{6})\.sql$/);
+  if (match) {
+    const str = match[1];
+    const year = str.substring(0, 4);
+    const month = str.substring(4, 6);
+    const day = str.substring(6, 8);
+    const hour = str.substring(9, 11);
+    const min = str.substring(11, 13);
+    const sec = str.substring(13, 15);
+    return `${day}/${month}/${year} às ${hour}:${min}:${sec}`;
+  }
+  return 'Data desconhecida';
+}
+
+export function Backup() {
+  // ─── Estado dos arquivos reais no servidor ────────────────────────────────
+  const [serverFiles, setServerFiles] = useState<string[]>([]);
+  const [isLoadingFiles, setIsLoadingFiles] = useState(true);
+
+  // ─── Estado do agendamento ────────────────────────────────────────────────
+  const [schedule, setSchedule] = useState<BackupScheduleState>(loadSchedule);
+
+  // ─── Form de agendamento ──────────────────────────────────────────────────
+  const [frequency, setFrequency]   = useState<BackupFrequency>('DAILY');
+  const [startDate, setStartDate]   = useState('');
+  const [startTime, setStartTime]   = useState('03:00');
+
+  // ─── Loading states ───────────────────────────────────────────────────────
+  const [isBackingUp, setIsBackingUp]     = useState(false);
+  const [isScheduling, setIsScheduling]   = useState(false);
+  const [isCancelling, setIsCancelling]   = useState(false);
+  // ─── Paginação da Tabela ──────────────────────────────────────────────────
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  // Lógica matemática para fatiar o array
+  const indexOfLastFile = currentPage * itemsPerPage;
+  const indexOfFirstFile = indexOfLastFile - itemsPerPage;
+  const currentFiles = serverFiles.slice(indexOfFirstFile, indexOfLastFile);
+  const totalPages = Math.ceil(serverFiles.length / itemsPerPage);
+
+
   
-  // Schedule state matching Screen 10 options
-  const [frequency, setFrequency] = useState<BackupFrequency>(backupConfig.frequency);
-  const [startDate, setStartDate] = useState(backupConfig.startDate);
-  const [startHour, setStartHour] = useState(backupConfig.startHour);
-  const [cloudSync, setCloudSync] = useState(backupConfig.cloudSync);
-  const [integrityCheck, setIntegrityCheck] = useState(backupConfig.integrityCheck);
+  useEffect(() => { saveSchedule(schedule); }, [schedule]);
 
-  // Trigger loading state for manual backup
-  const [isBackingUp, setIsBackingUp] = useState(false);
-  const [backupType, setBackupType] = useState<'Incremental' | 'Geral'>('Incremental');
-
-  const handleUpdateConfig = (e: React.FormEvent) => {
-    e.preventDefault();
-    onUpdateConfig({
-      frequency,
-      startDate,
-      startHour,
-      cloudSync,
-      integrityCheck,
-    });
-    alert('Configuração de agendamento de backup salva com sucesso!');
+  // ─── Busca os arquivos reais da API ───────────────────────────────────────
+  const fetchServerBackups = async () => {
+    setIsLoadingFiles(true);
+    try {
+      const files = await api.backups.list();
+      setServerFiles(files);
+    } catch (err) {
+      console.error("Erro ao buscar listagem de backups", err);
+    } finally {
+      setIsLoadingFiles(false);
+    }
   };
 
-  const handleManualBackupTrigger = (type: 'Incremental' | 'Geral') => {
-    setBackupType(type);
-    setIsBackingUp(true);
-    
-    // Simulate real file backup packing up space
-    setTimeout(() => {
-      onTriggerBackup(type);
-      setIsBackingUp(false);
-      alert(`Backup ${type} concluído com sucesso e sincronizado em nuvem!`);
-    }, 2000);
-  };
+  useEffect(() => {
+    fetchServerBackups();
 
-  const handleRestoreBackup = async (id: string, date: string) => {
-    const confirmRestore = window.confirm(`Deseja restaurar o banco de dados conforme o backup executado em ${date}? Isto substituirá o estado atual.`);
-    if (confirmRestore) {
+    const syncScheduleStatus = async () => {
       try {
-        const response = await api.backups.restore(id);
-        alert(response.message || `Restauração concluída com sucesso para a data de ${date}!`);
-      } catch (err: any) {
-        alert(`Erro ao restaurar backup: ${err.message}`);
+        const res = await api.backups.scheduleStatus();
+        setSchedule({
+          active: res.active,
+          frequency: res.frequency ?? null,
+          nextExecution: res.nextExecution ?? null,
+        });
+      } catch {
+        // Ignora erro silenciosamente
       }
+    };
+    syncScheduleStatus();
+  }, []);
+
+  // ─── Backup manual ────────────────────────────────────────────────────────
+  const handleManualBackup = async () => {
+    if (isBackingUp) return;
+    setIsBackingUp(true);
+    try {
+      const res = await api.backups.trigger();
+      alert(`✅ ${res?.message || 'Backup concluído com sucesso!'}`);
+      // Atualiza a tabela imediatamente após o sucesso!
+      await fetchServerBackups();
+    } catch (err: any) {
+      alert(`❌ Erro ao executar backup: ${err?.message || 'Erro desconhecido'}`);
+    } finally {
+      setIsBackingUp(false);
+    }
+  };
+
+  // ─── Agendar backup ───────────────────────────────────────────────────────
+  const handleSchedule = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!startDate || !startTime) { alert('Informe a data e hora de início.'); return; }
+
+    const startDateTime = `${startDate}T${startTime}:00`;
+
+    setIsScheduling(true);
+    try {
+      const res = await api.backups.schedule({ startDateTime, frequency });
+      const newSchedule: BackupScheduleState = {
+        active: res.active,
+        frequency: res.frequency,
+        nextExecution: res.nextExecution,
+      };
+      setSchedule(newSchedule);
+      alert(`✅ ${res.message}`);
+    } catch (err: any) {
+      alert(`❌ Erro ao agendar backup: ${err?.message || 'Erro desconhecido'}`);
+    } finally {
+      setIsScheduling(false);
+    }
+  };
+
+  // ─── Cancelar agendamento ─────────────────────────────────────────────────
+  const handleCancelSchedule = async () => {
+    if (!window.confirm('Deseja cancelar o agendamento de backup ativo?')) return;
+    setIsCancelling(true);
+    try {
+      const res = await api.backups.cancelSchedule();
+      setSchedule({ active: false, frequency: null, nextExecution: null });
+      alert(`✅ ${res.message}`);
+    } catch (err: any) {
+      alert(`❌ Erro ao cancelar agendamento: ${err?.message || 'Erro desconhecido'}`);
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
+  // ─── Restaurar backup ─────────────────────────────────────────────────────
+  const handleRestore = async (fileName: string) => {
+    const ok = window.confirm(
+      `⚠️ ATENÇÃO: Isso substituirá todo o banco de dados atual pelo backup:\n\n${fileName}\n\nDeseja continuar?`
+    );
+    if (!ok) return;
+    try {
+      const res = await api.backups.restore(fileName);
+      alert(`✅ ${res?.message || 'Restauração concluída com sucesso!'}`);
+    } catch (err: any) {
+      alert(`❌ Erro na restauração: ${err?.message || 'Erro desconhecido'}`);
     }
   };
 
   return (
-    <div className="space-y-6" id="backup-view-wrapper">
-      
-      {/* Header and Trigger Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4" id="backup-header-block">
+    <div className="space-y-6">
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Gestão Técnica de Backups</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Gestão de Backups</h1>
           <p className="text-sm text-slate-500 dark:text-zinc-400">
-            Configure redundância offsite automatizada e gerencie logs de integridade do banco corporativo.
+            Execute backups manuais, agende replicações automáticas e restaure o banco quando necessário.
           </p>
         </div>
-        
-        <div className="flex items-center gap-2 self-start" id="backup-manual-actions">
-          {/* Circular manual buttons */}
-          <button
-            disabled={isBackingUp}
-            onClick={() => handleManualBackupTrigger('Incremental')}
-            className="bg-indigo-650 hover:bg-slate-800 bg-slate-900 text-white text-xs font-semibold py-2.5 px-4 rounded-xl flex items-center gap-2 cursor-pointer disabled:opacity-40"
-          >
-            {isBackingUp && backupType === 'Incremental' ? (
-              <RefreshCcw className="w-4 h-4 animate-spin" />
-            ) : (
-              <Play className="w-4 h-4 text-indigo-400" />
-            )}
-            {isBackingUp && backupType === 'Incremental' ? 'Efetuando...' : 'Backup Incremental'}
-          </button>
-          
-          <button
-            disabled={isBackingUp}
-            onClick={() => handleManualBackupTrigger('Geral')}
-            className="bg-indigo-600 hover:bg-indigo-750 text-white text-xs font-semibold py-2.5 px-4 rounded-xl flex items-center gap-2 cursor-pointer disabled:opacity-40"
-          >
-            {isBackingUp && backupType === 'Geral' ? (
-              <RefreshCcw className="w-4 h-4 animate-spin" />
-            ) : (
-              <Play className="w-4 h-4" />
-            )}
-            {isBackingUp && backupType === 'Geral' ? 'Processando...' : 'Executar Full Geral'}
-          </button>
-        </div>
+
+        <button onClick={handleManualBackup} disabled={isBackingUp}
+          className="self-start flex items-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-zinc-700 dark:hover:bg-zinc-600 disabled:opacity-40 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
+          {isBackingUp
+            ? <><Loader2 className="w-4 h-4 animate-spin" /> Executando...</>
+            : <><Play className="w-4 h-4 text-indigo-400" /> Executar Backup Agora</>}
+        </button>
       </div>
 
-      {/* Grid: Scheduler on Left / Historical logs on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="backup-master-grid">
-        
-        {/* Box 1: Backup Scheduler Form */}
-        <div className="lg:col-span-5 bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm space-y-5 h-fit" id="card-backup-schedule">
-          <div>
-            <span className="text-[10px] font-mono tracking-widest text-indigo-500 font-bold uppercase">Políticas Globais</span>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">Agendamento Recorrente</h3>
-            <p className="text-xs text-slate-500 dark:text-zinc-400">Configure o intervalo automatizado de replicação local dos servidores.</p>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        {/* ── Esquerdo: Agendamento ── */}
+        <div className="lg:col-span-5 space-y-4">
+
+          {/* Card: status do agendamento ativo */}
+          {schedule.active ? (
+            <div className="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <CalendarClock className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <span className="text-xs font-bold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">Agendamento Ativo</span>
+                </div>
+                <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+              </div>
+              <div className="space-y-1 text-[11px] text-indigo-700 dark:text-indigo-300">
+                <p><strong>Frequência:</strong> {schedule.frequency ? FREQUENCY_LABELS[schedule.frequency] : '—'}</p>
+                <p><strong>Próxima execução:</strong> {formatDateTime(schedule.nextExecution)}</p>
+              </div>
+              <button onClick={handleCancelSchedule} disabled={isCancelling}
+                className="w-full py-2 flex items-center justify-center gap-1.5 text-xs font-bold text-red-600 dark:text-red-400 bg-white dark:bg-zinc-900 border border-red-200 dark:border-red-800/50 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/20 disabled:opacity-40 transition-all cursor-pointer">
+                {isCancelling ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <XCircle className="w-3.5 h-3.5" />}
+                Cancelar Agendamento
+              </button>
+            </div>
+          ) : (
+            <div className="bg-slate-50 dark:bg-zinc-800/40 border border-slate-200 dark:border-zinc-700 rounded-2xl p-4 flex items-center gap-3 text-xs text-slate-400 dark:text-zinc-500">
+              <CalendarClock className="w-4 h-4 shrink-0" />
+              Nenhum agendamento ativo no momento.
+            </div>
+          )}
+
+          {/* Card: form de agendamento */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm p-6 space-y-5">
+            <div>
+              <span className="text-[10px] font-mono tracking-widest text-indigo-500 font-bold uppercase">Agendamento</span>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">Novo Agendamento</h3>
+              <p className="text-xs text-slate-500 dark:text-zinc-400">Configure o intervalo de replicação automática do banco.</p>
+            </div>
+
+            <form onSubmit={handleSchedule} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">Frequência</label>
+                <select value={frequency} onChange={e => setFrequency(e.target.value as BackupFrequency)}
+                  className="w-full text-sm px-3.5 py-2.5 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option value="ONCE">Uma única vez</option>
+                  <option value="DAILY">Diário (Recomendado)</option>
+                  <option value="WEEKLY">Semanal</option>
+                  <option value="MONTHLY">Mensal</option>
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">Data de Início</label>
+                  <input type="date" required value={startDate} onChange={e => setStartDate(e.target.value)}
+                    className="w-full text-xs px-3.5 py-2 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">Hora</label>
+                  <input type="time" required value={startTime} onChange={e => setStartTime(e.target.value)}
+                    className="w-full text-xs px-3.5 py-2 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2 p-3 bg-slate-50 dark:bg-zinc-800/40 rounded-xl text-[10px] text-slate-400 dark:text-zinc-500 leading-relaxed">
+                <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                O backend executa <code>pg_dump</code> via Docker no horário configurado e salva o arquivo <code>.sql</code> localmente em <code>./backups</code>.
+              </div>
+
+              <button type="submit" disabled={isScheduling}
+                className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-zinc-700 dark:hover:bg-zinc-600 disabled:opacity-40 text-white font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+                {isScheduling ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4 text-indigo-400" />}
+                {isScheduling ? 'Agendando...' : 'Agendar Backup'}
+              </button>
+            </form>
           </div>
-
-          <form onSubmit={handleUpdateConfig} className="space-y-4" id="backup-schedule-form">
-            
-            <div className="space-y-1.5" id="sch-freq">
-              <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">Frequência do Loop</label>
-              <select
-                value={frequency}
-                onChange={(e) => setFrequency(e.target.value as BackupFrequency)}
-                className="w-full text-sm px-3.5 py-2.5 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-white focus:outline-none"
-              >
-                <option value="Diário">Diário (Recomendado)</option>
-                <option value="Semanal">Semanal</option>
-                <option value="Mensal">Mensal</option>
-              </select>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3" id="sch-dateTime">
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">Data de Início</label>
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full text-xs px-3.5 py-2 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-white focus:outline-none"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">Hora do Silêncio</label>
-                <input
-                  type="time"
-                  value={startHour}
-                  onChange={(e) => setStartHour(e.target.value)}
-                  className="w-full text-xs px-3.5 py-2 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-white focus:outline-none"
-                />
-              </div>
-            </div>
-
-            {/* Checkboxes controls */}
-            <div className="space-y-2.5 pt-2" id="sch-checkboxes">
-              <div className="flex items-start gap-2.5">
-                <input
-                  type="checkbox"
-                  id="bck-cloud"
-                  checked={cloudSync}
-                  onChange={(e) => setCloudSync(e.target.checked)}
-                  className="mt-1 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <label htmlFor="bck-cloud" className="text-xs text-slate-650 dark:text-zinc-350 select-none">
-                  <strong>Sincronização redundante em Nuvem Ativa</strong>
-                  <span className="block text-[10px] text-slate-400">Envia criptografado em AES-256 para repositório Amazon S3 externo.</span>
-                </label>
-              </div>
-
-              <div className="flex items-start gap-2.5">
-                <input
-                  type="checkbox"
-                  id="bck-integrity"
-                  checked={integrityCheck}
-                  onChange={(e) => setIntegrityCheck(e.target.checked)}
-                  className="mt-1 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <label htmlFor="bck-integrity" className="text-xs text-slate-650 dark:text-zinc-350 select-none">
-                  <strong>Análise de consistência e metadados</strong>
-                  <span className="block text-[10px] text-slate-400">Garante que o JSON / banco não possui tabelas de SLA inacabadas.</span>
-                </label>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              id="btn-save-schedule"
-              className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer mt-2"
-            >
-              <Save className="w-4 h-4 text-indigo-400" /> Salvar Política Técnica
-            </button>
-
-          </form>
         </div>
 
-        {/* Box 2: Backup History Log list Table */}
-        <div className="lg:col-span-7 bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm overflow-hidden flex flex-col justify-between" id="card-backup-history">
-          
-          <div className="p-5 border-b border-slate-100 dark:border-zinc-800" id="backup-history-header">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">Redundância Histórica de Arquivos</h3>
-            <p className="text-xs text-slate-500 dark:text-zinc-400">Últimos pacotes gerados pelo robô do TechManager.</p>
+        {/* ── Direito: Arquivos do Servidor ── */}
+        <div className="lg:col-span-7 bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm overflow-hidden flex flex-col">
+          <div className="p-5 border-b border-slate-100 dark:border-zinc-800 flex justify-between items-center">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">Arquivos no Servidor</h3>
+              <p className="text-xs text-slate-500 dark:text-zinc-400">Arquivos `.sql` disponíveis para restauração física.</p>
+            </div>
+            <button onClick={fetchServerBackups} disabled={isLoadingFiles} className="p-2 bg-slate-50 hover:bg-slate-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg text-slate-500 transition-colors">
+              <RefreshCcw className={`w-4 h-4 ${isLoadingFiles ? 'animate-spin' : ''}`} />
+            </button>
           </div>
 
           <div className="overflow-x-auto flex-1">
-            <table className="w-full text-left border-collapse text-sm">
-              <thead>
-                <tr className="bg-slate-50/60 dark:bg-zinc-800/40 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400 border-b border-slate-100 dark:border-zinc-800">
-                  <th className="py-3 px-6">Identificador</th>
-                  <th className="py-3 px-6">Tipo / Escopo</th>
-                  <th className="py-3 px-6">Tamanho</th>
-                  <th className="py-3 px-6">Data de Replicação</th>
-                  <th className="py-3 px-6">Status</th>
-                  <th className="py-3 px-6 text-center">Ações</th>
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-50/90 dark:bg-zinc-800/90 backdrop-blur-sm z-10">
+                <tr className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400 border-b border-slate-100 dark:border-zinc-800">
+                  {/* Voltando ao padding original */}
+                  <th className="py-3 px-4">Nome do Arquivo</th>
+                  <th className="py-3 px-4">Data de Criação</th>
+                  <th className="py-3 px-4 text-center">Status</th>
+                  <th className="py-3 px-4 text-center">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/80">
-                {backupHistory.map((bck) => (
-                  <tr key={bck.id} className="hover:bg-slate-50/40 dark:hover:bg-zinc-800/20 transition-colors" id={`row-bck-${bck.id}`}>
-                    <td className="py-3.5 px-6 font-mono text-xs font-bold text-slate-500 dark:text-zinc-400">
-                      {bck.id}
-                    </td>
-                    <td className="py-3.5 px-6 font-semibold text-slate-800 dark:text-white text-xs">
-                      {bck.type === 'Geral' ? 'Completo geral' : 'Redundância incremental'}
-                    </td>
-                    <td className="py-3.5 px-6 text-xs text-slate-600 dark:text-zinc-300 font-mono font-bold">
-                      {bck.size}
-                    </td>
-                    <td className="py-3.5 px-6 text-xs text-slate-500 dark:text-zinc-400">
-                      {bck.date}
-                    </td>
-                    <td className="py-3.5 px-6">
-                      {bck.status === 'Sucesso' ? (
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/55">
-                          Sucesso
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400 border border-red-100 dark:border-red-900/55">
-                          Erro SLA
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3.5 px-6 text-center flex items-center justify-center gap-1.5">
-                      <button
-                        onClick={() => handleRestoreBackup(bck.id, bck.date)}
-                        className="px-2 py-1 text-[11px] bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 rounded hover:bg-indigo-50 hover:text-indigo-600 font-semibold cursor-pointer"
-                        title="Restaurar Banco de dados para esta data"
-                        id={`btn-restore-${bck.id}`}
-                      >
-                        Restaurar
-                      </button>
-                      <a
-                        href="#"
-                        onClick={(e) => { e.preventDefault(); alert('Iniciando transferência segura do arquivo do backup GZIP...'); }}
-                        className="p-1 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400 hover:text-indigo-600 rounded-lg"
-                        title="Transferir arquivo comprimido"
-                      >
-                        <Download className="w-4 h-4" />
-                      </a>
+                {isLoadingFiles ? (
+                  <tr>
+                    <td colSpan={4} className="py-12 text-center text-slate-400 dark:text-zinc-500 text-xs">
+                      <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 opacity-50" />
+                      Sincronizando com o servidor...
                     </td>
                   </tr>
-                ))}
+                ) : serverFiles.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="py-12 text-center text-slate-400 dark:text-zinc-500 text-xs italic">
+                      Nenhum arquivo de backup encontrado no diretório <code>./backups</code>.
+                    </td>
+                  </tr>
+                ) : currentFiles.map((fileName) => {
+                  // Remove o "_" seguido dos números do timestamp e a extensão .sql apenas para exibição
+                  const displayName = fileName.replace(/_\d{8}_\d{6}\.sql$/, '');
+
+                  return (
+                    <tr key={fileName} className="hover:bg-slate-50/40 dark:hover:bg-zinc-800/20 transition-colors group">
+                      {/* Voltando ao padding original py-3 e tamanho de fonte normal */}
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-2">
+                          <FileCode2 className="w-4 h-4 text-indigo-400 shrink-0 opacity-50 group-hover:opacity-100 transition-opacity" />
+                          <span className="font-mono text-sm font-bold text-slate-600 dark:text-zinc-300 block" title={fileName}>
+                            {displayName}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-xs text-slate-500 dark:text-zinc-400 whitespace-nowrap font-medium">
+                        {parseDateFromFileName(fileName)}
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/50">
+                          <CheckCircle2 className="w-3 h-3" /> Disponível
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {/* Mantém o fileName original aqui para a restauração funcionar perfeitamente */}
+                        <button onClick={() => handleRestore(fileName)}
+                          className="px-2 py-1 text-xs bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 rounded-lg hover:bg-amber-50 hover:text-amber-700 dark:hover:bg-amber-950/30 dark:hover:text-amber-400 font-semibold cursor-pointer transition-colors">
+                          Restaurar
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
+          
+          {/* ── CONTROLES DE PAGINAÇÃO ── */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-5 py-3 bg-slate-50 dark:bg-zinc-800/40 border-t border-slate-100 dark:border-zinc-800">
+              <button 
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-300 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800 disabled:opacity-40 transition-colors"
+              >
+                Anterior
+              </button>
+              
+              <span className="text-xs font-medium text-slate-500 dark:text-zinc-400">
+                Página {currentPage} de {totalPages}
+              </span>
+              
+              <button 
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-zinc-300 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800 disabled:opacity-40 transition-colors"
+              >
+                Próxima
+              </button>
+            </div>
+          )}
 
-          {/* Quick instructions alert */}
-          <div className="p-4 bg-slate-50 dark:bg-zinc-800/40 border-t border-slate-100 dark:border-zinc-800 text-xs text-slate-400 dark:text-zinc-500 flex items-center justify-center gap-1.5" id="backup-instructions">
-            <HelpCircle className="w-4 h-4 shrink-0" />
-            Clique em "Restaurar" para reinicializar o ambiente simulado com a versão do log desejada.
+          {totalPages <= 1 && (
+            <div className="p-3 bg-slate-50 dark:bg-zinc-800/40 border-t border-slate-100 dark:border-zinc-800 flex items-center gap-1.5 text-xs text-slate-400 dark:text-zinc-500">
+              <Info className="w-3 h-3 shrink-0" />
+              Exibindo os arquivos reais localizados no servidor.
+            </div>
+          )}
+          
+          <div className="p-4 bg-slate-50 dark:bg-zinc-800/40 border-t border-slate-100 dark:border-zinc-800 flex items-center gap-1.5 text-xs text-slate-400 dark:text-zinc-500">
+            <Info className="w-3.5 h-3.5 shrink-0" />
+            Exibindo os arquivos reais localizados no servidor.
           </div>
-
         </div>
-
       </div>
 
-      {/* Row 3: Metrics indicators summary row (Screen 10 bottom row matching) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5" id="backup-indicators-grid">
-        
-        <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm flex items-center gap-4" id="indicator-storage">
-          <div className="p-3 bg-red-50 dark:bg-red-950/30 text-red-650 dark:text-red-400 rounded-xl">
-            <HardDrive className="w-6 h-6 animate-pulse" />
+      {/* ── Cards de status ── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 rounded-xl">
+            <HardDrive className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-[10px] uppercase text-slate-400 font-bold block">Armazenamento Usado</span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-slate-800 dark:text-white leading-tight">84% de Capacidade</span>
-            </div>
-            <p className="text-[11px] text-slate-400">Consumo total: 4.8 TB ativos protegidos.</p>
+            <span className="text-[10px] uppercase text-slate-400 font-bold block">Arquivos no Servidor</span>
+            <span className="text-xl font-bold text-slate-800 dark:text-white">{serverFiles.length}</span>
+            <p className="text-[11px] text-slate-400">Backups físicos disponíveis</p>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm flex items-center gap-4" id="indicator-integrity">
-          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-650 dark:text-emerald-400 rounded-xl">
+        <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm flex items-center gap-4">
+          <div className={`p-3 rounded-xl ${schedule.active ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400' : 'bg-slate-50 dark:bg-zinc-800 text-slate-400 dark:text-zinc-500'}`}>
+            <CalendarClock className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-[10px] uppercase text-slate-400 font-bold block">Agendamento</span>
+            <span className="text-xl font-bold text-slate-800 dark:text-white">
+              {schedule.active ? FREQUENCY_LABELS[schedule.frequency!] : 'Inativo'}
+            </span>
+            <p className="text-[11px] text-slate-400">
+              {schedule.active ? `Próximo: ${formatDateTime(schedule.nextExecution)}` : 'Nenhum agendamento ativo'}
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 rounded-xl">
             <ShieldCheck className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-[10px] uppercase text-slate-400 font-bold block">Integridade do Backup</span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-slate-850 dark:text-white leading-tight">Ótima Configuração</span>
-            </div>
-            <p className="text-[11px] text-slate-400">0% de setores corrompidos nos pacotes.</p>
+            <span className="text-[10px] uppercase text-slate-400 font-bold block">Último Backup</span>
+            <span className="text-xl font-bold text-slate-800 dark:text-white">
+              {serverFiles.length > 0 ? 'OK' : '—'}
+            </span>
+            <p className="text-[11px] text-slate-400">
+              {serverFiles.length > 0 ? parseDateFromFileName(serverFiles[0]) : 'Sem registros'}
+            </p>
           </div>
         </div>
-
-        <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm flex items-center gap-4" id="indicator-cloud">
-          <div className="p-3 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-650 dark:text-indigo-400 rounded-xl">
-            <CheckCircle2 className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-[10px] uppercase text-slate-400 font-bold block">Estado da Nuvem S3</span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-slate-850 dark:text-white leading-tight">Nuvem Sincronizada</span>
-            </div>
-            <p className="text-[11px] text-slate-400">Alinhamento seguro estabelecido no bucket.</p>
-          </div>
-        </div>
-
       </div>
-
     </div>
   );
 }

@@ -1,7 +1,7 @@
 export type Priority = 'LOW' | 'MEDIUM' | 'HIGH';
 export type Category = 'HARDWARE' | 'SOFTWARE' | 'NETWORK';
 export type TicketStatus = 'OPEN' | 'COMPLETED' | 'CANCELED' | 'ASSIGNED' | 'PAYMENT_PENDING' | 'IN_PROGRESS';
-export type BackupFrequency = 'ONCE' | 'DAILY' | 'WEEKLY ' | 'MONTHLY';
+export type BackupFrequency = 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY';
 
 export interface UserProfile {
   name: string;
@@ -68,18 +68,35 @@ export interface Ticket {
   files?: any[];
 }
 
+/** Resposta do POST /api/backups/trigger e POST /api/backups/restore */
+export interface BackupMessageResponse {
+  message: string;
+}
+ 
+/** Resposta do POST /api/backups/schedule e DELETE /api/backups/schedule/cancel */
+export interface ScheduleBackupResponse {
+  message: string;
+  frequency: BackupFrequency | null;
+  nextExecution: string | null; // ISO LocalDateTime serializado pelo Jackson
+  active: boolean;
+}
+ 
+/**
+ * Registro local de backups executados manualmente.
+ * O backend não tem endpoint de listagem — mantemos histórico no localStorage.
+ */
 export interface BackupHistory {
   id: string;
-  type: 'Incremental' | 'Geral';
-  size: string; // e.g. "12.4 GB"
+  fileName: string;        // nome real do arquivo gerado pelo backend
+  triggeredAt: string;     // ISO string
   status: 'Sucesso' | 'Falha';
-  date: string;
+  message: string;
 }
-
-export interface BackupConfig {
-  frequency: BackupFrequency;
-  startDate: string;
-  startHour: string;
-  cloudSync: boolean;
-  integrityCheck: boolean;
+ 
+/** Estado do agendamento ativo (guardado localmente) */
+export interface BackupScheduleState {
+  active: boolean;
+  frequency: BackupFrequency | null;
+  nextExecution: string | null;
 }
+ 

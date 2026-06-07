@@ -11,7 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,6 +53,21 @@ public class BackupController {
             String msg = backupService.executeRestore(fileName);
             return ResponseEntity.ok(Map.of("message", msg));
         }
+
+    @GetMapping("/schedule/status")
+    public ResponseEntity<ScheduleBackupResponse> status() {
+        return ResponseEntity.ok(backupService.getScheduleStatus());
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<String>> listBackups() {
+        File dir = new File("./backups");
+        if (!dir.exists()) return ResponseEntity.ok(List.of());
+        String[] files = dir.list((d, name) -> name.endsWith(".sql"));
+        List<String> sorted = files != null ? Arrays.asList(files) : List.of();
+        Collections.sort(sorted, Collections.reverseOrder()); // mais recentes primeiro
+        return ResponseEntity.ok(sorted);
+    }
+}
 
 

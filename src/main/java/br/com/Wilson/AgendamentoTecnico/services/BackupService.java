@@ -206,6 +206,13 @@ public class BackupService {
             default      -> current;
         };
     }
+
+    public ScheduleBackupResponse getScheduleStatus() {
+        if (!schedulerState.isRunning()) return ScheduleBackupResponse.cancelled();
+        return ScheduleBackupResponse.of(schedulerState.getFrequency(), schedulerState.getNextExecution());
+    }
+
+    
 }
 
 

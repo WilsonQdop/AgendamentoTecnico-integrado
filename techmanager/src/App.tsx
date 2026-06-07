@@ -575,6 +575,7 @@ const loggedClientId = userRole === 'CUSTOMER'
                     auditPage={currentAuditPage}
                     totalAuditPages={totalAuditPages}
                     isAdmin={userRole === 'ADMIN'}
+                    isTechnical={userRole === 'TECHNICAL'}
                     onAuditPageChange={setCurrentAuditPage}
                     onViewTicket={handleViewDetailedTicket}
                     onNavigateToTab={setActiveTab}
@@ -628,10 +629,7 @@ const loggedClientId = userRole === 'CUSTOMER'
                 if (userRole !== 'ADMIN') return <div className="p-8 text-center text-slate-550">Acesso negado.</div>;
                 return (
                   <Backup
-                    backupHistory={backupHistory}
-                    backupConfig={backupConfig}
-                    onUpdateConfig={setBackupConfig}
-                    onTriggerBackup={handleTriggerBackup}
+                   
                   />
                 );
 
@@ -657,6 +655,7 @@ const loggedClientId = userRole === 'CUSTOMER'
                     auditPage={currentAuditPage}
                     totalAuditPages={totalAuditPages}
                     isAdmin={userRole === 'ADMIN'}
+                    isTechnical={userRole === 'TECHNICAL'}
                     onAuditPageChange={setCurrentAuditPage}
                     onViewTicket={handleViewDetailedTicket}
                     onNavigateToTab={setActiveTab}

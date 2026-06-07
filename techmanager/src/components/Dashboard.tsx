@@ -8,7 +8,8 @@ interface DashboardProps {
   auditLogs: any[]; 
   auditPage: number;
   totalAuditPages: number;
-  isAdmin: boolean; // 👈 Controle de perfil para renderização condicional
+  isAdmin: boolean;
+  isTechnical: boolean // 👈 Controle de perfil para renderização condicional
   onAuditPageChange: (page: number) => void;
   onViewTicket: (ticketId: string) => void;
   onNavigateToTab: (tab: 'clientes' | 'tecnicos' | 'chamados') => void;
@@ -30,6 +31,7 @@ export function Dashboard({
   auditPage,
   totalAuditPages,
   isAdmin,
+  isTechnical,
   onAuditPageChange,
   onViewTicket, 
   onNavigateToTab 
@@ -37,7 +39,7 @@ export function Dashboard({
   
   // 🛡️ SEGURANÇA ABSOLUTA CONTRA ACESSO DE CLIENTES:
   // Se não for admin, bloqueia a renderização completa do Dashboard imediatamente.
-  if (!isAdmin) {
+  if (!isAdmin && !isTechnical) {
     return null;
   }
 
@@ -48,12 +50,11 @@ export function Dashboard({
 
   const totalClientsCount = safeClients.length;
   const activeTechniciansCount = safeTechnicians.filter(t => t.status === 'Ativo' || t.status === 'Ocupado').length;
-  const inProgressTicketsCount = safeTickets.filter(t => t.status === 'Em Andamento' || t.status === 'Pendente').length;
-  const resolvedTicketsCount = safeTickets.filter(t => t.status === 'Resolvido').length;
+  const inProgressTicketsCount = safeTickets.filter(t => t.status === 'IN_PROGRESS').length;
+  const resolvedTicketsCount = safeTickets.filter(t => t.status === 'COMPLETED').length;
 
-  // Priority tickets (Alta/Crítica e ativos) com proteção nativa contra falhas de encadeamento
   const priorityTickets = safeTickets
-    .filter(t => t && t.status !== 'Resolvido' && t.status !== 'Cancelado')
+    .filter(t => t && t.status !== 'COMPLETED' && t.status !== 'CANCELED')
     .sort((a, b) => {
       const priorityWeights: Record<string, number> = { 'Crítica': 4, 'Alta': 3, 'Média': 2, 'Baixa': 1 };
       const weightB = priorityWeights[b.priority] || 0;
@@ -158,7 +159,7 @@ export function Dashboard({
             </span>
             <p className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{inProgressTicketsCount}</p>
             <span className="text-[11px] text-rose-600 dark:text-rose-400 font-semibold bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded flex items-center gap-1 w-fit">
-              <Flame className="w-3.5 h-3.5 animate-bounce" /> {safeTickets.filter(t => t?.priority === 'Crítica' && t?.status !== 'Resolvido').length} Críticos
+              <Flame className="w-3.5 h-3.5 animate-bounce" /> {safeTickets.filter(t => t?.status === 'IN_PROGRESS').length} Tickets
             </span>
           </div>
           <div className="p-4 bg-indigo-50 dark:bg-indigo-950/40 rounded-xl text-indigo-600 dark:text-indigo-400 group-hover:scale-105 transition-transform">
@@ -197,7 +198,7 @@ export function Dashboard({
           <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm overflow-hidden" id="card-priority-tickets">
             <div className="px-6 py-5 border-b border-slate-100 dark:border-zinc-800/80 flex justify-between items-center" id="card-priority-tickets-header">
               <div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Meus Chamados Prioritários</h3>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Movimentação Dos Chamados</h3>
                 <p className="text-xs text-slate-500 dark:text-zinc-400">Chamados pendentes ou em andamento de alta criticidade.</p>
               </div>
               <button

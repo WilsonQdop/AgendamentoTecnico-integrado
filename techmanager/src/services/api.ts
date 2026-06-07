@@ -64,17 +64,15 @@ export const api = {
     finish: (id: string) => request(`/ticket/finish/${id}`, { method: 'PUT' }),
     assign: (id: string) => request(`/technical/assign/${id}`, { method: 'PUT' }),
     pay: (id: string, data: any) => request(`/ticket/payment/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-    changeHistory: (id: string, data: { comment: string }) =>
-      request(`/history/change/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }),
+    changeHistory: (id: string, data: { comment: string }) =>request(`/history/change/${id}`, { method: 'PUT',headers: { 'Content-Type': 'application/json' },body: JSON.stringify(data), }),
   },
   backups: {
     trigger: () => request('/api/backups/trigger', { method: 'POST' }),
     schedule: (data: any) => request('/api/backups/schedule', { method: 'POST', body: JSON.stringify(data) }),
+    scheduleStatus: () => request('/api/backups/schedule/status'),
     cancelSchedule: () => request('/api/backups/schedule/cancel', { method: 'DELETE' }),
     restore: (fileName: string) => request(`/api/backups/restore?arquivo=${fileName}`, { method: 'POST' }),
+    list: () => request('/api/backups/list'),
+
   },
 };
