@@ -56,9 +56,12 @@ export interface Ticket {
   paymentConfirmed: boolean;
   creationDate: string;
   clientName: string;
+  technicianId: string;
   technicalName: string | null;
   technicalId: string | null; // UUID vindo do Java
   updates: TicketUpdate[];
+
+  
   
   // Mantidos para compatibilidade com o restante do App
   location?: string;

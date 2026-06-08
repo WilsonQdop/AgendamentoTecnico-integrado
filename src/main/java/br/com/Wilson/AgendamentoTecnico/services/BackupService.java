@@ -38,6 +38,8 @@ public class BackupService {
     private final BackupSchedulerState schedulerState = new BackupSchedulerState();
 
     public String executeBackup() {
+
+        // Garantia que o diretório para guardar os backups exista no repositório
         try {
             Path backupPath = Paths.get(BACKUP_DIR);
             if (!Files.exists(backupPath)) {
@@ -47,12 +49,16 @@ public class BackupService {
                     throw new BackupDirectoryException(BACKUP_DIR, e);
                 }
             }
+
+            // Nomeação dos arquivos
             String safeDbName = dbName.replaceAll("[^a-zA-Z0-9_\\-]", "");
 
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
             String fileName = "backup_" + safeDbName + "_" + timestamp + ".sql";
             File outputFile = new File(backupPath.toFile(), fileName);
 
+            // Montagem dos schemas do banco de dados (docker + postgress)
+            // docker exec = entra no banco, -e PGPASSWORD= pega a senha do banco em variáveis de ambiente
             List<String> command = new ArrayList<>();
             command.add("docker");
             command.add("exec");
@@ -67,11 +73,10 @@ public class BackupService {
             command.add("-d");
             command.add(dbName);
 
+            // ProcessBuilder executa os comandos, pg_dump é o conteúdo dos schemas (tabelas), S
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.redirectOutput(outputFile);
-
             pb.redirectError(ProcessBuilder.Redirect.INHERIT);
-
             Process process = pb.start();
             int exitCode = process.waitFor();
 
@@ -118,6 +123,7 @@ public class BackupService {
                 throw new RestoreExecutionException("Falha ao limpar o banco de dados antes do restore.");
             }
 
+            //
             List<String> command = new ArrayList<>();
             command.add("docker");
             command.add("exec");
@@ -154,7 +160,6 @@ public class BackupService {
     
     public ScheduleBackupResponse scheduleBackup(ScheduleBackupRequest request) {
         schedulerState.stop();
-
         schedulerState.setNextExecution(request.startDateTime());
         schedulerState.setFrequency(request.frequency());
         schedulerState.setRunning(true);
@@ -162,6 +167,7 @@ public class BackupService {
         Thread thread = new Thread(() -> {
             while (schedulerState.isRunning()) {
                 try {
+                    // hora e data atual que o agendamento foi executado
                     LocalDateTime now = LocalDateTime.now();
 
                     if (!now.isBefore(schedulerState.getNextExecution())) {

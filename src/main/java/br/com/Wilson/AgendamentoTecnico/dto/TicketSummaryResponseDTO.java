@@ -12,5 +12,5 @@ public record TicketSummaryResponseDTO(
         UUID id,
         String title, CategoryEnum category,
         PriorityEnum priority, StatusEnum status, BigDecimal value, boolean paymentConfirmed,
-        LocalDateTime createdAt, String customerName, String technicalName) {
+        LocalDateTime createdAt, String customerName, String technicalName, String lastComment) {
 }

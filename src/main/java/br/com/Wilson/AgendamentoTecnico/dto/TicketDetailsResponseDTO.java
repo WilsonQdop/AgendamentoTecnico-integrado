@@ -25,6 +25,4 @@ public record TicketDetailsResponseDTO(
         String technicalName,
         UUID technicalId,
         List<TicketHistoryResponseDTO> updates // A lista de históricos aqui dentro!
-
-
 ) {}

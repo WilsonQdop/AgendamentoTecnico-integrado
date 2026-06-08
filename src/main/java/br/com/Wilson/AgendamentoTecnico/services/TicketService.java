@@ -164,13 +164,27 @@ public class TicketService {
         List<Ticket> ticketList = this.ticketRepository.findAll();
 
         return ticketList.stream()
-                .map(ticket -> new TicketSummaryResponseDTO(
-                        ticket.getId(), ticket.getTitle(), ticket.getCategory(),
-                        ticket.getPriority(), ticket.getStatus(), ticket.getValue(),
-                        ticket.isPaymentConfirmed(), ticket.getCreatedAt(),
-                        ticket.getCustomer().getName(),
-                        ticket.getTechnical() != null ? ticket.getTechnical().getName() : "Nenhum técnico atribuído"
-                ));
+                .map(ticket -> {
+                    String lastComment = ticket.getTicketHistories() != null && !ticket.getTicketHistories().isEmpty()
+                            ? ticket.getTicketHistories()
+                            .get(ticket.getTicketHistories().size() - 1)
+                            .getComment()
+                            : null;
+
+                    return new TicketSummaryResponseDTO(
+                            ticket.getId(),
+                            ticket.getTitle(),
+                            ticket.getCategory(),
+                            ticket.getPriority(),
+                            ticket.getStatus(),
+                            ticket.getValue(),
+                            ticket.isPaymentConfirmed(),
+                            ticket.getCreatedAt(),
+                            ticket.getCustomer().getName(),
+                            ticket.getTechnical() != null ? ticket.getTechnical().getName() : "Nenhum técnico atribuído",
+                            lastComment
+                    );
+                });
     }
 
     public TicketDetailsResponseDTO viewTicketsDetails(UUID ticketId) {
@@ -180,14 +194,16 @@ public class TicketService {
 
         switch (loggedUser.getRole()) {
             case CUSTOMER -> {
+                // Cliente só pode ver o próprio chamado
                 if (ticket.getCustomer() == null || !ticket.getCustomer().getEmail().equals(loggedUser.getEmail())) {
                     throw new TicketAccessDeniedException();
                 }
             }
             case TECHNICAL -> {
-                if (ticket.getTechnical() == null || !ticket.getTechnical().getEmail().equals(loggedUser.getEmail())) {
-                    throw new TicketAccessDeniedException();
-                }
+                // Qualquer técnico pode visualizar — controle de edição é feito no frontend
+            }
+            case ADMIN -> {
+                // Admin pode ver tudo
             }
             default -> throw new IllegalArgumentException("Role inválida: " + loggedUser.getRole());
         }
@@ -198,7 +214,6 @@ public class TicketService {
                 "Detalhes do chamado '" + ticket.getTitle() + "' visualizados por " + loggedUser.getName()
         );
 
-        // 🔥 1. Converte a lista de TicketHistory da entidade para a lista de DTOs do frontend
         List<TicketHistoryResponseDTO> historyDTOs = ticket.getTicketHistories().stream()
                 .map(history -> new TicketHistoryResponseDTO(
                         history.getId(),
@@ -209,7 +224,6 @@ public class TicketService {
                 ))
                 .toList();
 
-        // 2. Retorna o record incluindo a lista mapeada no final
         return new TicketDetailsResponseDTO(
                 ticket.getId(),
                 ticket.getTitle(),
@@ -225,7 +239,7 @@ public class TicketService {
                 ticket.getCustomer() != null ? ticket.getCustomer().getId() : null,
                 ticket.getTechnical() != null ? ticket.getTechnical().getName() : null,
                 ticket.getTechnical() != null ? ticket.getTechnical().getId() : null,
-                historyDTOs // 🔥 O novo argumento correspondente à lista 'updates' no record
+                historyDTOs
         );
     }
 
@@ -238,13 +252,27 @@ public class TicketService {
             default -> Collections.emptyList();
         };
 
-        return ticketList.stream().map(ticket -> new TicketSummaryResponseDTO(
-                ticket.getId(), ticket.getTitle(), ticket.getCategory(),
-                ticket.getPriority(), ticket.getStatus(), ticket.getValue(),
-                ticket.isPaymentConfirmed(), ticket.getCreatedAt(),
-                ticket.getCustomer().getName(),
-                ticket.getTechnical() != null ? ticket.getTechnical().getName() : "Nenhum técnico atribuído"
-        ));
+        return ticketList.stream().map(ticket -> {
+            String lastComment = ticket.getTicketHistories() != null && !ticket.getTicketHistories().isEmpty()
+                    ? ticket.getTicketHistories()
+                    .get(ticket.getTicketHistories().size() - 1)
+                    .getComment()
+                    : null;
+
+            return new TicketSummaryResponseDTO(
+                    ticket.getId(),
+                    ticket.getTitle(),
+                    ticket.getCategory(),
+                    ticket.getPriority(),
+                    ticket.getStatus(),
+                    ticket.getValue(),
+                    ticket.isPaymentConfirmed(),
+                    ticket.getCreatedAt(),
+                    ticket.getCustomer().getName(),
+                    ticket.getTechnical() != null ? ticket.getTechnical().getName() : "Nenhum técnico atribuído",
+                    lastComment
+            );
+        });
     }
 
     private BigDecimal calculateServiceValue(Ticket ticket) {

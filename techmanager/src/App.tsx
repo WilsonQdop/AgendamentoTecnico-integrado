@@ -138,29 +138,32 @@ export default function App() {
 
       // Mapeamento dos chamados
       if (Array.isArray(ticketsData)) {
-        setTickets(ticketsData.map((t: any) => ({
-          id: t.id,
-          title: t.title,
-          priority: t.priority,   
-          category: t.category,   
-          location: t.location || 'N/A',
-          equipment: t.equipment || 'N/A',
-          description: t.description || 'Nenhuma descrição fornecida.', 
-          clientId: t.customerId || '',
-          clientName: t.customerName || 'Cliente',
-          technicalId: t.technicalId || '', 
-          assignedTechnicianId: t.technicalId || '', 
-          technicalName: t.technicalName || 'Nenhum técnico designado', 
-          baseValue:  t.baseHourlyRate || 100,
-          finalValue: t.value || 100,    
-          status: t.status,      
-          creationDate: t.createdAt ? new Date(t.createdAt).toLocaleString('pt-BR') : new Date().toLocaleString('pt-BR'),
-          slaEstimate: 'N/A',
-          files: t.files || [], 
-          updates: t.updates || [], 
-          paymentConfirmed: t.paymentConfirmed || false,
-        })));
-      }
+  setTickets(ticketsData.map((t: any) => ({
+    id: t.id,
+    title: t.title,
+    priority: t.priority,
+    category: t.category,
+    location: t.location || 'N/A',
+    equipment: t.equipment || 'N/A',
+    description: t.lastComment || t.description || 'Sem comentários',
+    clientId: t.customerId || '',
+    clientName: t.customerName || 'Cliente',
+    technicianId: t.technicalId || '',   // ← campo do types.ts (linha 59)
+    technicalId: t.technicalId || '',    // ← campo do types.ts usado no DetalheChamado
+    technicalName: t.technicalName || 'Nenhum técnico designado',
+    baseValue: t.baseHourlyRate || 100,
+    finalValue: t.value || 100,
+    status: t.status,
+    creationDate: t.createdAt
+      ? new Date(t.createdAt).toLocaleString('pt-BR')
+      : new Date().toLocaleString('pt-BR'),
+    slaEstimate: 'N/A',
+    files: t.files || [],
+    updates: Array.from(t.updates || []),
+
+    paymentConfirmed: t.paymentConfirmed || false,
+  })));
+}
 
     } catch (err) {
       console.error('Erro geral ao carregar dados:', err);
@@ -336,10 +339,13 @@ export default function App() {
   };
 
   const handleUpdateTicket = async (updatedTicket: Ticket) => {
-    setTickets(prevTickets => 
-      prevTickets.map(t => t.id === updatedTicket.id ? updatedTicket : t)
-    );
-  };
+  setTickets(prevTickets => 
+    prevTickets.map(t => t.id === updatedTicket.id ? {
+      ...updatedTicket,
+      updates: Array.from(updatedTicket.updates || []), // ← força array real
+    } : t)
+  );
+};
 
   const getLoggedTechIdAndName = (): { id: string; name: string } => {
   // Se for admin, não precisa de techId (admin não edita chamados como técnico)
@@ -576,6 +582,8 @@ const loggedClientId = userRole === 'CUSTOMER'
                     totalAuditPages={totalAuditPages}
                     isAdmin={userRole === 'ADMIN'}
                     isTechnical={userRole === 'TECHNICAL'}
+                    currentUserId={loggedTech.id}  
+                    currentUserName={profile.name} 
                     onAuditPageChange={setCurrentAuditPage}
                     onViewTicket={handleViewDetailedTicket}
                     onNavigateToTab={setActiveTab}
@@ -648,18 +656,20 @@ const loggedClientId = userRole === 'CUSTOMER'
                 }
                 return (
                   <Dashboard
-                    clients={clients}
-                    technicians={technicians}
-                    tickets={tickets}
-                    auditLogs={auditLogs}
-                    auditPage={currentAuditPage}
-                    totalAuditPages={totalAuditPages}
-                    isAdmin={userRole === 'ADMIN'}
-                    isTechnical={userRole === 'TECHNICAL'}
-                    onAuditPageChange={setCurrentAuditPage}
-                    onViewTicket={handleViewDetailedTicket}
-                    onNavigateToTab={setActiveTab}
-                  />
+  clients={clients}
+  technicians={technicians}
+  tickets={tickets}
+  auditLogs={auditLogs}
+  auditPage={currentAuditPage}
+  totalAuditPages={totalAuditPages}
+  isAdmin={userRole === 'ADMIN'}
+  isTechnical={userRole === 'TECHNICAL'}
+  currentUserId={loggedTech.id}       
+  currentUserName={profile.name}      
+  onAuditPageChange={setCurrentAuditPage}
+  onViewTicket={handleViewDetailedTicket}
+  onNavigateToTab={setActiveTab}
+/>
                 );
             }
           })()}

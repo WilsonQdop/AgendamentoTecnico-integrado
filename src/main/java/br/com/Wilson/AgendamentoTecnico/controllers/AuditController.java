@@ -20,7 +20,7 @@ public class AuditController {
     @GetMapping
     public ResponseEntity<Page<AuditLog>> getLogs(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size) {
+            @RequestParam(defaultValue = "5") int size) {
 
         Page<AuditLog> logs = auditService.getRecentLogs(page, size);
         return ResponseEntity.ok(logs);

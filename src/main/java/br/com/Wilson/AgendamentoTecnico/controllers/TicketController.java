@@ -78,7 +78,7 @@ public class TicketController {
         return ResponseEntity.ok(this.ticketService.getMyTickets());
     }
 
-    @PreAuthorize("hasAnyRole('TECHNICAL', 'CUSTOMER')")
+    @PreAuthorize("hasAnyRole('TECHNICAL', 'CUSTOMER', 'ADMIN')")
     @GetMapping("/ticketDetails/{ticketId}")
     public ResponseEntity<TicketDetailsResponseDTO> viewTicketDetails(@PathVariable UUID ticketId) {
 

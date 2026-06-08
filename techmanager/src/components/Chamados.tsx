@@ -85,8 +85,9 @@ export function Chamados({
     const matchesStatus     = statusFilter     === 'Todos' || ticket.status   === statusFilter;
     const matchesPriority   = priorityFilter   === 'Todas' || ticket.priority === priorityFilter;
     const matchesTechnician = technicianFilter === 'Todos' ||
-      (technicianFilter === 'Não Atribuído' && !ticket.assignedTechnicianId) ||
-      ticket.assignedTechnicianId === technicianFilter;
+      (technicianFilter === 'Não Atribuído' && !ticket.technicalId) ||
+      ticket.technicalId === technicianFilter
+
     return matchesSearch && matchesStatus && matchesPriority && matchesTechnician;
   }), [tickets, searchTerm, statusFilter, priorityFilter, technicianFilter]);
 
@@ -150,11 +151,14 @@ export function Chamados({
             // usa o technicalId do próprio ticket carregado via getDetails.
             // Isso é seguro: o backend só retorna o ticket para quem tem acesso,
             // e o currentUserEmail confirma que é o mesmo usuário da sessão.
-            loggedTechId={
-              loggedTechId ||
-              (detailedTicket.technicalId && currentUserEmail ? detailedTicket.technicalId : '')
-            }
+            // DEPOIS:
+loggedTechId={
+  userRole === 'TECHNICAL'
+    ? (loggedTechId || detailedTicket.technicalId || '')
+    : '' // admin e customer nunca recebem loggedTechId
+}
             loggedTechName={loggedTechName || detailedTicket.technicalName || ''}
+            userRole={userRole}
           />
         ) : null
       ) : (
@@ -241,7 +245,7 @@ export function Chamados({
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/80">
                   {paginatedTickets.map(ticket => {
-                    const assignedTech = technicians.find(t => t.id === ticket.assignedTechnicianId);
+                    const assignedTech = technicians.find(t => t.id === ticket.technicalId);
                     const canAssign    = isTechnician && ticket.status === 'OPEN';
                     return (
                       <tr key={ticket.id} className="hover:bg-slate-50/40 dark:hover:bg-zinc-800/20 transition-colors">

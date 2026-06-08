@@ -13,6 +13,7 @@ interface DetalheChamadoProps {
   loggedTechName?: string;
   /** ID do cliente dono do chamado — para mostrar o botão de pagamento */
   loggedClientId?: string;
+  userRole?: string;
 }
 
 const STATUS_LABEL: Record<TicketStatus, string> = {
@@ -39,6 +40,7 @@ export function DetalheChamado({
   loggedTechId,
   loggedTechName,
   loggedClientId,
+  userRole
 }: DetalheChamadoProps) {
 
   const ticketTechId   = ticket.technicalId || '';
@@ -50,7 +52,7 @@ export function DetalheChamado({
 
   // ─── Permissões ───────────────────────────────────────────────────────────
   const isAssignedToMe = !!loggedTechId && !!ticketTechId && loggedTechId === ticketTechId;
-  const canEdit        = isAssignedToMe;
+const canEdit        = isAssignedToMe && !!loggedTechId; // admin não tem loggedTechId, nunca pode editar
 
   /** Dono do chamado (cliente) pode pagar */
   const isTicketOwner  = !!loggedClientId && loggedClientId === (ticket.clientId || '');
@@ -71,66 +73,75 @@ export function DetalheChamado({
   const [isPaying, setIsPaying]           = useState(false);
 
   // Sincroniza estado local quando o ticket mudar externamente
-  useEffect(() => {
-    if (ticket.updates) {
-      setLocalUpdates(ticket.updates);
-      setCurrentHistoryPage(1);
-    }
-    refetchTicketDetails();
-  }, [ticket.updates]);
+ useEffect(() => {
+  setLocalUpdates(ticket.updates || []);
+  setCurrentHistoryPage(1);
+}, [ticket.id]); // só reseta quando muda de ticket
+
+useEffect(() => {
+  refetchTicketDetails();
+}, []); 
 
   // ─── Recarregar dados do backend ─────────────────────────────────────────
   const refetchTicketDetails = async () => {
-    try {
-      const response = await api.tickets.getDetails(ticket.id);
-      const updatedTicketData = response.data || response;
+  try {
+    const response = await api.tickets.getDetails(ticket.id);
+    const updatedTicketData = response.data || response;
+    const rawHistories = updatedTicketData.updates || [];
 
-      const rawHistories = updatedTicketData.updates || [];
+    const normalizedUpdates: TicketUpdate[] = rawHistories.map((up: any) => ({
+      id: up.id,
+      comment: up.comment || '',
+      changeDate: up.changeDate
+        ? new Date(up.changeDate).toLocaleString('pt-BR')
+        : new Date().toLocaleString('pt-BR'),
+      newStatus: up.newStatus,
+      oldStatus: up.oldStatus,
+      updateBy: up.updateBy || 'Sistema',
+    }));
 
-      const normalizedUpdates: TicketUpdate[] = rawHistories.map((up: any) => ({
-        id: up.id,
-        comment: up.comment || '',
-        changeDate: up.changeDate
-          ? new Date(up.changeDate).toLocaleString('pt-BR')
-          : new Date().toLocaleString('pt-BR'),
-        newStatus: up.newStatus,
-        updateBy: up.updateBy || 'Sistema',
-      }));
+    const transformedTicket: Ticket = {
+      id: updatedTicketData.id,
+      title: updatedTicketData.title,
+      description: updatedTicketData.description || 'Nenhuma descrição fornecida.',
+      category: updatedTicketData.category,
+      priority: updatedTicketData.priority,
+      status: updatedTicketData.status,
+      baseValue: updatedTicketData.baseValue || 100,
+      finalValue: updatedTicketData.finalValue || 100,
+      paymentConfirmed: updatedTicketData.paymentConfirmed || false,
+      creationDate: updatedTicketData.creationDate
+        ? new Date(updatedTicketData.creationDate).toLocaleString('pt-BR')
+        : new Date().toLocaleString('pt-BR'),
+      clientName: updatedTicketData.clientName || 'Cliente',
+      technicianId: updatedTicketData.technicalId || '',
+      technicalId: updatedTicketData.technicalId || '',
+      technicalName: updatedTicketData.technicalName || '',
+      updates: normalizedUpdates,
+      location: ticket.location || 'N/A',
+      equipment: ticket.equipment || 'N/A',
+      clientId: updatedTicketData.customerId || updatedTicketData.clientId || '',
+      slaEstimate: ticket.slaEstimate || 'N/A',
+      files: updatedTicketData.files || [],
+    };
 
-      const transformedTicket: Ticket = {
-        id: updatedTicketData.id,
-        title: updatedTicketData.title,
-        description: updatedTicketData.description || 'Nenhuma descrição fornecida.',
-        category: updatedTicketData.category,
-        priority: updatedTicketData.priority,
-        status: updatedTicketData.status,
-        baseValue: updatedTicketData.baseValue || 100,
-        finalValue: updatedTicketData.finalValue || 100,
-        paymentConfirmed: updatedTicketData.paymentConfirmed || false,
-        creationDate: updatedTicketData.creationDate
-          ? new Date(updatedTicketData.creationDate).toLocaleString('pt-BR')
-          : new Date().toLocaleString('pt-BR'),
-        clientName: updatedTicketData.clientName || 'Cliente',
-        technicalId: updatedTicketData.technicalId || '',
-        technicalName: updatedTicketData.technicalName || '',
-        updates: normalizedUpdates,
-        location: ticket.location || 'N/A',
-        equipment: ticket.equipment || 'N/A',
-        clientId: updatedTicketData.customerId || updatedTicketData.clientId || '',
-        slaEstimate: ticket.slaEstimate || 'N/A',
-        files: updatedTicketData.files || [],
-      };
+    // Atualiza estado local PRIMEIRO — garante que a UI atualiza mesmo se onUpdateTicket falhar
+    setLocalUpdates(normalizedUpdates);
+   
 
-      setLocalUpdates(normalizedUpdates);
-      onUpdateTicket(transformedTicket);
-      setStatus(transformedTicket.status);
+    setStatus(transformedTicket.status);
 
-      return transformedTicket;
-    } catch (err) {
-      console.error('❌ Erro ao recarregar dados do ticket:', err);
-      throw err;
-    }
-  };
+    // Propaga para o App.tsx por último
+    onUpdateTicket(transformedTicket);
+
+    return transformedTicket;
+  } catch (err) {
+    console.error('❌ Erro ao recarregar dados do ticket:', err);
+    // NÃO relança — deixa a UI no estado que conseguiu atualizar
+  }
+};
+
+  
 
   // ─── Handlers de ação ────────────────────────────────────────────────────
 
@@ -150,24 +161,31 @@ export function DetalheChamado({
 
   /** Registra comentário no histórico; automaticamente mantém/define IN_PROGRESS */
   const handlePostUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!updateMessage.trim() || !canEdit) return;
-    setIsUpdating(true);
-    try {
-      // Garante que o chamado está IN_PROGRESS antes de comentar
-      if (ticket.status !== 'IN_PROGRESS') {
-        await api.tickets.start(ticket.id);
-      }
-
-      await api.tickets.changeHistory(ticket.id, { comment: updateMessage });
-      await refetchTicketDetails();
-      setUpdateMessage('');
-    } catch (err: any) {
-      alert(`Erro ao atualizar chamado: ${err.message || 'Erro desconhecido'}`);
-    } finally {
-      setIsUpdating(false);
+  e.preventDefault();
+  if (!updateMessage.trim() || !canEdit) return;
+  setIsUpdating(true);
+  try {
+    console.log('1. Postando comentário...');
+    
+    if (ticket.status !== 'IN_PROGRESS') {
+      await api.tickets.start(ticket.id);
     }
-  };
+
+    console.log('2. Chamando changeHistory...');
+    await api.tickets.changeHistory(ticket.id, { comment: updateMessage });
+    
+    console.log('3. Chamando refetch...');
+    await refetchTicketDetails();
+    
+    console.log('4. Limpando campo...');
+    setUpdateMessage('');
+  } catch (err: any) {
+    console.error('ERRO NO handlePostUpdate:', err); // ← ver onde quebra
+    alert(`Erro ao atualizar chamado: ${err.message || 'Erro desconhecido'}`);
+  } finally {
+    setIsUpdating(false);
+  }
+};
 
   /** Conclui chamado → PAYMENT_PENDING */
   const handleFinish = async () => {
@@ -234,12 +252,16 @@ export function DetalheChamado({
     }
   };
 
-  const lockReason = (() => {
-    if (isClosed) return null; // Chamados fechados não precisam de aviso de lock
-    if (!ticketTechId) return 'Este chamado ainda não foi assumido. Vá à lista e clique em "Assumir".';
-    if (!isAssignedToMe) return `Somente ${ticketTechName || 'o técnico atribuído'} pode gerenciar este chamado.`;
-    return null;
-  })();
+// DEPOIS:
+const isViewer = !!loggedTechId && !isAssignedToMe; // técnico logado mas não é o dono
+
+const lockReason = (() => {
+  if (isClosed) return null;
+  if (isViewer) return null; // outros técnicos/admin podem ver sem aviso de bloqueio
+  if (!ticketTechId) return 'Este chamado ainda não foi assumido. Vá à lista e clique em "Assumir".';
+  if (!isAssignedToMe) return `Somente ${ticketTechName || 'o técnico atribuído'} pode gerenciar este chamado.`;
+  return null;
+})();
 
   // ─── Paginação ───────────────────────────────────────────────────────────
   const totalHistoryPages = Math.ceil(localUpdates.length / ITEMS_PER_PAGE);
@@ -251,6 +273,7 @@ export function DetalheChamado({
   const handleNextPage     = () => setCurrentHistoryPage(prev => Math.min(totalHistoryPages, prev + 1));
 
   // ─── Render ───────────────────────────────────────────────────────────────
+
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-xl overflow-hidden max-w-4xl mx-auto">
 
@@ -341,197 +364,179 @@ export function DetalheChamado({
         </div>
 
         {/* ── Direito: Controles ── */}
-        <div className="lg:col-span-5 p-6 space-y-6 bg-slate-50/40 dark:bg-zinc-900 flex flex-col justify-between">
-          <div className="space-y-5">
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-widest">Controles do Chamado</h3>
+<div className="lg:col-span-5 p-6 space-y-6 bg-slate-50/40 dark:bg-zinc-900 flex flex-col justify-between">
+  <div className="space-y-5">
+    <div className="space-y-3">
+      <h3 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-widest">
+        {canEdit ? 'Controles do Chamado' : 'Informações do Chamado'}
+      </h3>
 
-              {/* Badge de status atual */}
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-semibold uppercase text-slate-400 dark:text-zinc-500 tracking-wider">Status atual:</span>
-                <StatusBadge status={status} />
-              </div>
+      {/* Badge de status atual — sempre visível */}
+      <div className="flex items-center gap-2">
+        <span className="text-[10px] font-semibold uppercase text-slate-400 dark:text-zinc-500 tracking-wider">Status atual:</span>
+        <StatusBadge status={status} />
+      </div>
 
-              {/* Aviso de bloqueio */}
-              {lockReason && (
-                <div className="flex items-start gap-2 p-2.5 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-xl text-[11px] text-red-600 dark:text-red-400 font-medium">
-                  <Lock className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                  {lockReason}
-                </div>
-              )}
-
-              {/* ── BOTÃO: Iniciar chamado (OPEN/ASSIGNED) ── */}
-              {isPending && canEdit && (
-                <button onClick={handleStart} disabled={isUpdating}
-                  className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2">
-                  {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-                  Iniciar Chamado
-                </button>
-              )}
-
-              {/* ── BOTÕES: Concluir / Cancelar (IN_PROGRESS) ── */}
-              {isInProgress && canEdit && (
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  {/* Concluir → PAYMENT_PENDING */}
-                  <button onClick={handleFinish} disabled={isUpdating}
-                    className="py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 col-span-1">
-                    {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
-                    Concluir
-                  </button>
-
-                  {/* Cancelar → CANCELED */}
-                  <button onClick={handleCancel} disabled={isUpdating}
-                    className="py-2.5 bg-red-600 hover:bg-red-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 col-span-1">
-                    {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <XCircle className="w-3.5 h-3.5" />}
-                    Cancelar
-                  </button>
-                </div>
-              )}
-
-              {/* ── PAINEL DE PAGAMENTO (PAYMENT_PENDING, apenas o dono do chamado) ── */}
-              {isPaymentPending && isTicketOwner && (
-                <div className="space-y-3 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl">
-                  <div className="flex items-center gap-2">
-                    <CreditCard className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                    <h4 className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Pagamento Pendente</h4>
-                  </div>
-
-                  <div className="text-sm font-bold text-slate-800 dark:text-white">
-                    Valor total:&nbsp;
-                    <span className="text-emerald-600 dark:text-emerald-400 font-mono">
-                      R$ {ticket.finalValue?.toFixed(2) ?? '—'}
-                    </span>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
-                      Valor a pagar (R$)
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      placeholder={`Ex: ${ticket.finalValue?.toFixed(2) ?? '100,00'}`}
-                      value={paymentAmount}
-                      onChange={e => setPaymentAmount(e.target.value)}
-                      className="w-full text-xs px-3 py-2 bg-white dark:bg-zinc-800 border border-amber-300 dark:border-amber-700 rounded-lg text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
-                    />
-                  </div>
-
-                  <button onClick={handlePayment} disabled={isPaying || !paymentAmount}
-                    className="w-full py-2.5 bg-amber-400 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-slate-900 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2">
-                    {isPaying ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
-                    Confirmar Pagamento
-                  </button>
-                </div>
-              )}
-
-              {/* Aviso PAYMENT_PENDING para técnico (não tem o painel de pagamento) */}
-              {isPaymentPending && !isTicketOwner && (
-                <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl text-[11px] text-amber-700 dark:text-amber-400 font-medium flex items-center gap-2">
-                  <CreditCard className="w-3.5 h-3.5 shrink-0" />
-                  Aguardando confirmação de pagamento pelo cliente.
-                </div>
-              )}
-
-              {/* Técnico responsável */}
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-semibold text-slate-500 uppercase dark:text-zinc-500">Técnico Responsável</label>
-                <div className="w-full text-xs px-3 py-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-800 dark:text-white flex items-center gap-2">
-                  {ticketTechName ? (
-                    <>
-                      <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 flex items-center justify-center font-bold text-[10px] shrink-0">
-                        {ticketTechName.charAt(0).toUpperCase()}
-                      </span>
-                      <span className="font-semibold">{ticketTechName}</span>
-                    </>
-                  ) : (
-                    <span className="text-slate-400 dark:text-zinc-500 italic">Nenhum técnico assumiu ainda</span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Cálculo de valor */}
-            <div className="bg-white dark:bg-zinc-800 p-4 rounded-xl border border-slate-100 dark:border-zinc-700/80 shadow-sm space-y-3">
-              <h4 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">Cálculo do Valor Técnico</h4>
-
-              {/* Fórmula */}
-              <div className="bg-slate-50 dark:bg-zinc-900/60 rounded-lg px-3 py-2 text-[10px] font-mono text-slate-500 dark:text-zinc-500 text-center tracking-wide">
-                valor = base × horas × peso_categoria × peso_prioridade
-              </div>
-
-              {/* Valores do chamado */}
-              <ul className="space-y-1.5 text-[11px] text-slate-600 dark:text-zinc-400 leading-relaxed">
-                <li>• <strong>Valor Base:</strong> R$ {ticket.baseValue?.toFixed(2) ?? '100,00'}/h</li>
-                <li>• <strong>Horas:</strong> contadas a partir do início — mínimo cobrado: 1h</li>
-                <li>• <strong>Valor Final:</strong> <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">R$ {ticket.finalValue?.toFixed(2) ?? '—'}</span></li>
-              </ul>
-
-              {/* Pesos */}
-              <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100 dark:border-zinc-700">
-                <div className="space-y-1">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 block">Peso — Categoria</span>
-                  <ul className="space-y-0.5 text-[10px] text-slate-600 dark:text-zinc-400">
-                    <li className="flex justify-between"><span>Hardware</span><span className="font-mono font-bold text-slate-700 dark:text-zinc-300">× 1.0</span></li>
-                    <li className="flex justify-between"><span>Software</span><span className="font-mono font-bold text-amber-600 dark:text-amber-400">× 1.3</span></li>
-                    <li className="flex justify-between"><span>Network</span><span className="font-mono font-bold text-red-600 dark:text-red-400">× 1.5</span></li>
-                  </ul>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 block">Peso — Prioridade</span>
-                  <ul className="space-y-0.5 text-[10px] text-slate-600 dark:text-zinc-400">
-                    <li className="flex justify-between"><span>Baixa</span><span className="font-mono font-bold text-slate-700 dark:text-zinc-300">× 1.0</span></li>
-                    <li className="flex justify-between"><span>Média</span><span className="font-mono font-bold text-amber-600 dark:text-amber-400">× 1.2</span></li>
-                    <li className="flex justify-between"><span>Alta</span><span className="font-mono font-bold text-red-600 dark:text-red-400">× 1.5</span></li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Exemplo */}
-              <p className="text-[10px] text-slate-400 dark:text-zinc-500 leading-relaxed pt-1 border-t border-slate-100 dark:border-zinc-700">
-                Ex.: 2h · Network · Alta = R$ 100 × 2 × 1.5 × 1.5 = <strong className="text-emerald-600 dark:text-emerald-400">R$ 450,00</strong>
-              </p>
-            </div>
-          </div>
-
-          {/* ── Formulário de comentário (liberado após iniciar) ── */}
-          {(isInProgress || isPaymentPending) && canEdit && (
-            <form onSubmit={handlePostUpdate} className="pt-4 border-t border-slate-100 dark:border-zinc-800 space-y-3">
-              <div className="space-y-1">
-                <label className="text-[11px] font-bold text-slate-700 dark:text-zinc-400 uppercase tracking-wide block">
-                  Registrar Ação *
-                </label>
-                <textarea rows={3} required disabled={!canEdit}
-                  placeholder="Descreva o procedimento realizado para incluir no histórico..."
-                  value={updateMessage} onChange={e => setUpdateMessage(e.target.value)}
-                  className="w-full text-xs p-2.5 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg text-slate-800 dark:text-white resize-none disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-              <button type="submit" disabled={isUpdating || !updateMessage.trim() || !canEdit}
-                className="w-full py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed dark:bg-zinc-700 dark:hover:bg-zinc-600 text-white rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5">
-                {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
-                Gravar Ação no Histórico
-              </button>
-            </form>
-          )}
-
-          {/* Aviso: chamado ainda não iniciado */}
-          {isPending && canEdit && (
-            <p className="text-[11px] text-slate-400 dark:text-zinc-500 italic text-center pt-2 border-t border-slate-100 dark:border-zinc-800">
-              Inicie o chamado para liberar o registro de ações.
-            </p>
-          )}
-
-          {/* Chamado encerrado */}
-          {isClosed && (
-            <div className="pt-4 border-t border-slate-100 dark:border-zinc-800">
-              <p className="text-[11px] text-slate-400 dark:text-zinc-500 italic text-center">
-                Este chamado está encerrado e não aceita mais atualizações.
-              </p>
-            </div>
+      {/* Técnico responsável — sempre visível */}
+      <div className="space-y-1.5">
+        <label className="text-[11px] font-semibold text-slate-500 uppercase dark:text-zinc-500">Técnico Responsável</label>
+        <div className="w-full text-xs px-3 py-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-slate-800 dark:text-white flex items-center gap-2">
+          {ticketTechName ? (
+            <>
+              <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 flex items-center justify-center font-bold text-[10px] shrink-0">
+                {ticketTechName.charAt(0).toUpperCase()}
+              </span>
+              <span className="font-semibold">{ticketTechName}</span>
+            </>
+          ) : (
+            <span className="text-slate-400 dark:text-zinc-500 italic">Nenhum técnico assumiu ainda</span>
           )}
         </div>
+      </div>
+
+      {/* ── SOMENTE PARA O TÉCNICO DONO ── */}
+      {canEdit && (
+        <>
+          {/* Aviso de bloqueio */}
+          {lockReason && (
+            <div className="flex items-start gap-2 p-2.5 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-xl text-[11px] text-red-600 dark:text-red-400 font-medium">
+              <Lock className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              {lockReason}
+            </div>
+          )}
+
+          {isPending && (
+            <button onClick={handleStart} disabled={isUpdating}
+              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2">
+              {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+              Iniciar Chamado
+            </button>
+          )}
+
+          {isInProgress && (
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <button onClick={handleFinish} disabled={isUpdating}
+                className="py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 col-span-1">
+                {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
+                Concluir
+              </button>
+              <button onClick={handleCancel} disabled={isUpdating}
+                className="py-2.5 bg-red-600 hover:bg-red-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 col-span-1">
+                {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <XCircle className="w-3.5 h-3.5" />}
+                Cancelar
+              </button>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* ── PAGAMENTO: só para o cliente dono ── */}
+      {isPaymentPending && isTicketOwner && (
+        <div className="space-y-3 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl">
+          <div className="flex items-center gap-2">
+            <CreditCard className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <h4 className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Pagamento Pendente</h4>
+          </div>
+          <div className="text-sm font-bold text-slate-800 dark:text-white">
+            Valor total:&nbsp;
+            <span className="text-emerald-600 dark:text-emerald-400 font-mono">
+              R$ {ticket.finalValue?.toFixed(2) ?? '—'}
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
+              Valor a pagar (R$)
+            </label>
+            <input
+              type="number" min="0" step="0.01"
+              placeholder={`Ex: ${ticket.finalValue?.toFixed(2) ?? '100,00'}`}
+              value={paymentAmount}
+              onChange={e => setPaymentAmount(e.target.value)}
+              className="w-full text-xs px-3 py-2 bg-white dark:bg-zinc-800 border border-amber-300 dark:border-amber-700 rounded-lg text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+            />
+          </div>
+          <button onClick={handlePayment} disabled={isPaying || !paymentAmount}
+            className="w-full py-2.5 bg-amber-400 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-slate-900 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2">
+            {isPaying ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
+            Confirmar Pagamento
+          </button>
+        </div>
+      )}
+
+      {/* Aviso PAYMENT_PENDING para quem não é o cliente dono */}
+      {isPaymentPending && !isTicketOwner && (
+        <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl text-[11px] text-amber-700 dark:text-amber-400 font-medium flex items-center gap-2">
+          <CreditCard className="w-3.5 h-3.5 shrink-0" />
+          Aguardando confirmação de pagamento pelo cliente.
+        </div>
+      )}
+    </div>
+
+    {/* Cálculo de valor — sempre visível */}
+    <div className="bg-white dark:bg-zinc-800 p-4 rounded-xl border border-slate-100 dark:border-zinc-700/80 shadow-sm space-y-3">
+      <h4 className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">Cálculo do Valor Técnico</h4>
+      <div className="bg-slate-50 dark:bg-zinc-900/60 rounded-lg px-3 py-2 text-[10px] font-mono text-slate-500 dark:text-zinc-500 text-center tracking-wide">
+        valor = base × horas × peso_categoria × peso_prioridade
+      </div>
+      <ul className="space-y-1.5 text-[11px] text-slate-600 dark:text-zinc-400 leading-relaxed">
+        <li>• <strong>Valor Base:</strong> R$ {ticket.baseValue?.toFixed(2) ?? '100,00'}/h</li>
+        <li>• <strong>Horas:</strong> contadas a partir do início — mínimo cobrado: 1h</li>
+        <li>• <strong>Valor Final:</strong> <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">R$ {ticket.finalValue?.toFixed(2) ?? '—'}</span></li>
+      </ul>
+      <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100 dark:border-zinc-700">
+        <div className="space-y-1">
+          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 block">Peso — Categoria</span>
+          <ul className="space-y-0.5 text-[10px] text-slate-600 dark:text-zinc-400">
+            <li className="flex justify-between"><span>Hardware</span><span className="font-mono font-bold text-slate-700 dark:text-zinc-300">× 1.0</span></li>
+            <li className="flex justify-between"><span>Software</span><span className="font-mono font-bold text-amber-600 dark:text-amber-400">× 1.3</span></li>
+            <li className="flex justify-between"><span>Network</span><span className="font-mono font-bold text-red-600 dark:text-red-400">× 1.5</span></li>
+          </ul>
+        </div>
+        <div className="space-y-1">
+          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 block">Peso — Prioridade</span>
+          <ul className="space-y-0.5 text-[10px] text-slate-600 dark:text-zinc-400">
+            <li className="flex justify-between"><span>Baixa</span><span className="font-mono font-bold text-slate-700 dark:text-zinc-300">× 1.0</span></li>
+            <li className="flex justify-between"><span>Média</span><span className="font-mono font-bold text-amber-600 dark:text-amber-400">× 1.2</span></li>
+            <li className="flex justify-between"><span>Alta</span><span className="font-mono font-bold text-red-600 dark:text-red-400">× 1.5</span></li>
+          </ul>
+        </div>
+      </div>
+      <p className="text-[10px] text-slate-400 dark:text-zinc-500 leading-relaxed pt-1 border-t border-slate-100 dark:border-zinc-700">
+        Ex.: 2h · Network · Alta = R$ 100 × 2 × 1.5 × 1.5 = <strong className="text-emerald-600 dark:text-emerald-400">R$ 450,00</strong>
+      </p>
+    </div>
+  </div>
+
+  {/* Formulário de comentário — só para o técnico dono, em andamento */}
+  {(isInProgress || isPaymentPending) && canEdit && (
+    <form onSubmit={handlePostUpdate} className="pt-4 border-t border-slate-100 dark:border-zinc-800 space-y-3">
+      <div className="space-y-1">
+        <label className="text-[11px] font-bold text-slate-700 dark:text-zinc-400 uppercase tracking-wide block">
+          Registrar Ação *
+        </label>
+        <textarea rows={3} required
+          placeholder="Descreva o procedimento realizado para incluir no histórico..."
+          value={updateMessage} onChange={e => setUpdateMessage(e.target.value)}
+          className="w-full text-xs p-2.5 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg text-slate-800 dark:text-white resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+      <button type="submit" disabled={isUpdating || !updateMessage.trim()}
+        className="w-full py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed dark:bg-zinc-700 dark:hover:bg-zinc-600 text-white rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5">
+        {isUpdating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
+        Gravar Ação no Histórico
+      </button>
+    </form>
+  )}
+
+  {/* Chamado encerrado */}
+  {isClosed && (
+    <div className="pt-4 border-t border-slate-100 dark:border-zinc-800">
+      <p className="text-[11px] text-slate-400 dark:text-zinc-500 italic text-center">
+        Este chamado está encerrado e não aceita mais atualizações.
+      </p>
+    </div>
+  )}
+</div>
       </div>
     </div>
   );
