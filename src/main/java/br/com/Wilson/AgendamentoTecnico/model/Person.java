@@ -27,7 +27,7 @@ public abstract class Person {
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")  // <- garante que não conflita com dtype
+    @Column(name = "role")
     private Role role;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)

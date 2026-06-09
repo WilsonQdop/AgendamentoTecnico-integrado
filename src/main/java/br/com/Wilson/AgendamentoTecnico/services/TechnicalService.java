@@ -2,17 +2,20 @@ package br.com.Wilson.AgendamentoTecnico.services;
 
 import br.com.Wilson.AgendamentoTecnico.dto.request.CreateTechnicalRequestDTO;
 import br.com.Wilson.AgendamentoTecnico.dto.UpdateTechnicalResponseDTO;
+import br.com.Wilson.AgendamentoTecnico.exceptions.PasswordRecentlyUsedException;
 import br.com.Wilson.AgendamentoTecnico.exceptions.PasswordsDoNotMatchException;
+import br.com.Wilson.AgendamentoTecnico.model.PasswordHistory;
 import br.com.Wilson.AgendamentoTecnico.model.Technical;
 import br.com.Wilson.AgendamentoTecnico.model.enums.AuditAction;
+import br.com.Wilson.AgendamentoTecnico.repositories.PasswordHistoryRepository;
 import br.com.Wilson.AgendamentoTecnico.repositories.TechnicalRepository;
 import br.com.Wilson.AgendamentoTecnico.utils.AuthUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TechnicalService {
@@ -20,16 +23,19 @@ public class TechnicalService {
     private final TechnicalRepository technicalRepository;
     private final AuthUtil authUtil;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordHistoryRepository passwordHistoryRepository;
     private final AuditService auditService;
 
-    public TechnicalService(TechnicalRepository technicalRepository, AuthUtil authUtil, PasswordEncoder passwordEncoder, AuditService auditService) {
+    public TechnicalService(TechnicalRepository technicalRepository, AuthUtil authUtil, PasswordEncoder passwordEncoder,
+                            PasswordHistoryRepository passwordHistoryRepository, AuditService auditService) {
         this.technicalRepository = technicalRepository;
         this.authUtil = authUtil;
         this.passwordEncoder = passwordEncoder;
+        this.passwordHistoryRepository = passwordHistoryRepository;
         this.auditService = auditService;
     }
 
-    public UpdateTechnicalResponseDTO updateTechnical (CreateTechnicalRequestDTO request) {
+    public UpdateTechnicalResponseDTO updateTechnical(CreateTechnicalRequestDTO request) {
         Technical technical = (Technical) this.authUtil.getUserLoggedIn();
 
         technical.setName(request.name());
@@ -39,8 +45,21 @@ public class TechnicalService {
             if (!request.password().equals(request.passwordConfirmed())) {
                 throw new PasswordsDoNotMatchException();
             }
-            // TODO: Adicionar validação de histórico de senhas aqui, se necessário
-            technical.setPassword(passwordEncoder.encode(request.password())); // Codificar senha
+
+            List<PasswordHistory> history = passwordHistoryRepository
+                    .findTop3ByPersonOrderByCreatedAtDesc(technical);
+
+            boolean recentlyUsed = history.stream()
+                    .anyMatch(h -> passwordEncoder.matches(request.password(), h.getHashedPassword()));
+
+            if (recentlyUsed) {
+                throw new PasswordRecentlyUsedException();
+            }
+
+            String encodedPassword = passwordEncoder.encode(request.password());
+            technical.setPassword(encodedPassword);
+
+            passwordHistoryRepository.save(new PasswordHistory(technical, encodedPassword));
         }
 
         Technical saved = this.technicalRepository.save(technical);

@@ -78,7 +78,7 @@ export default function App() {
     try {
       // 1. ROTAS EXCLUSIVAS DE ADMIN
       if (role === 'ADMIN') {
-        const response = await api.admin.getAuditLogs(0, 10).catch(() => null);
+        const response = await api.admin.getAuditLogs(0, 4).catch(() => null);
         if (response && response.content) {
           setAuditLogs(response.content);
         } else if (Array.isArray(response)) {
@@ -179,7 +179,7 @@ export default function App() {
       return;
     }
     try {
-      const response = await api.admin.getAuditLogs(page, 6);
+      const response = await api.admin.getAuditLogs(page, 4);
       if (response && response.content) {
         setAuditLogs(response.content);
         setTotalAuditPages(response.totalPages);
@@ -208,19 +208,25 @@ export default function App() {
     else if (profile.theme === 'high_contrast') root.classList.add('dark', 'contrast-mode');
   }, [profile.theme]);
 
-  const handleLoginSuccess = (email: string) => {
-    localStorage.setItem('tm_logged_user_email', email);
-    setCurrentUser(email);
-    const role = getUserRole();
-    setUserRole(role);
-    setProfile(p => ({ ...p, email }));
-    
-    if (role === 'CUSTOMER') {
-      setActiveTab('chamados');
-    } else {
-      setActiveTab('dashboard');
-    }
-  };
+ const handleLoginSuccess = (email: string) => {
+  localStorage.setItem('tm_logged_user_email', email);
+  localStorage.removeItem('tm_db_user_profile'); // ← ADICIONE ISTO
+  
+  setCurrentUser(email);
+  const role = getUserRole();
+  setUserRole(role);
+  
+  // Pega o name que Login.tsx salvou
+  const savedName = localStorage.getItem('userName') || 'Usuário';
+  
+  setProfile(p => ({ ...p, email, name: savedName })); // ← E ISTO
+  
+  if (role === 'CUSTOMER') {
+    setActiveTab('chamados');
+  } else {
+    setActiveTab('dashboard');
+  }
+};
 
   const handleAssignTicket = async (ticketId: string) => {
     try {

@@ -26,31 +26,30 @@ export function Login({ onLoginSuccess, onNavigateToRegister }: LoginProps) {
     setIsLoading(true);
 
     try {
+  const data = await api.auth.login({ email, password });
+  localStorage.setItem('authToken', data.token);
+  localStorage.setItem('userName', data.name);
+  setIsLoading(false); 
+  onLoginSuccess(email);
+} catch (err: any) {
+  console.error('Erro detalhado:', err);
 
-      // Salva o token e nome do usuário
-      const data = await api.auth.login({ email, password });
-console.log('Resposta do login:', data); // <-- adicione isso
-localStorage.setItem('authToken', data.token);
-      localStorage.setItem('userName', data.name);
-      onLoginSuccess(email);
-    } catch (err: any) {
-      console.error('Erro detalhado:', err);
-      
-      if (err.status === 423) {
-        const msg = err.message || '';
-        const match = msg.match(/(\d+)/);
-        const minutes = match ? match[1] : '?';
-        setError(`Conta bloqueada por tentativas inválidas. Tente novamente em ${minutes} minuto(s).`);
-      } else if (err.status === 401) {
-        setError('Senha incorreta. Verifique suas credenciais.');
-      } else if (err.status === 404) {
-        setError('E-mail não encontrado. Verifique o endereço digitado.');
-      } else {
-        setError(err.message || 'Erro ao realizar login. Tente novamente.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
+  if (err.status === 423) {
+    const fullMsg = JSON.stringify(err);
+    const match = fullMsg.match(/(\d+)/);
+    const minutes = match ? match[1] : '?';
+    setError(`🔒 Conta bloqueada por excesso de tentativas. Tente novamente em ${minutes} minuto(s).`);
+  } else if (err.status === 401) {
+    const attemptsMsg = err.message?.includes('tentativa') ? ` ${err.message}` : '';
+    setError(`❌ Senha incorreta. Verifique suas credenciais.${attemptsMsg}`);
+  } else if (err.status === 404) {
+    setError('❌ E-mail não encontrado. Verifique o endereço digitado.');
+  } else {
+    setError(err.message || 'Erro ao realizar login. Tente novamente.');
+  }
+} finally {
+  setIsLoading(false); 
+}
   };
 
   return (

@@ -13,12 +13,22 @@ async function request(endpoint: string, options: RequestInit = {}) {
     headers,
   });
 
+   if (!response.ok) {
+    const errorText = await response.text();
+    let errorData: any = {};
+    try { errorData = JSON.parse(errorText); } catch { errorData = { message: errorText }; }
+    console.log('ERRO DETALHADO:', errorData); // ← ADICIONE
+    throw { status: response.status, ...errorData };
+  }
+
   if (!response.ok) {
     const errorText = await response.text();
     let errorData: any = {};
     try { errorData = JSON.parse(errorText); } catch { errorData = { message: errorText }; }
     throw { status: response.status, ...errorData };
   }
+
+  
 
   // Lê como texto primeiro — evita explodir em respostas Void (200 sem body)
   const text = await response.text();
@@ -53,6 +63,9 @@ export const api = {
     deleteTechnician: (id: string) => request(`/admin/technical/delete/${id}`, { method: 'DELETE' }),
     updateTechnician: (id: string, data: any) => request(`/admin/technical/update/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     getAuditLogs: (page = 0, size = 6) => request(`/api/admin/audit-logs?page=${page}&size=${size}`),
+    getProfile: () =>
+    request('/admin/profile', { method: 'GET' }),
+  
   },
   tickets: {
     getAll: () => request('/ticket/findAll'),
@@ -75,4 +88,18 @@ export const api = {
     list: () => request('/api/backups/list'),
 
   },
+  customer: {
+  update: (data: { name: string; phone: string; password: string }) =>
+    request('/customer/update', { method: 'PUT', body: JSON.stringify(data) }),
+},
+technical: {
+  update: (data: { name: string; phone: string; password: string; email: string }) =>
+    request('/technical/update', { method: 'PATCH', body: JSON.stringify({
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      password: data.password,
+      passwordConfirmed: data.password, 
+    })}),
+},
 };

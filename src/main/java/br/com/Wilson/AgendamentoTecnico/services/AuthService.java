@@ -40,7 +40,7 @@ public class AuthService {
 
     public CurrentUserDTO getCurrentUserData() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName(); // JWT sub = email
+        String email = authentication.getName();
 
         Person person = personRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("Usuário não encontrado"));
@@ -50,10 +50,10 @@ public class AuthService {
                 : "USER";
 
         return new CurrentUserDTO(
-                person.getId(),      // UUID
-                person.getName(),    // Nome
-                person.getEmail(),   // Email
-                role                 // ADMIN, CUSTOMER, TECHNICAL
+                person.getId(),
+                person.getName(),
+                person.getEmail(),   
+                role
         );
     }
 
